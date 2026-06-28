@@ -1,0 +1,116 @@
+/* MojoBoost — animations.css */
+
+/* Fade variants */
+@keyframes fade-in  { from{opacity:0} to{opacity:1} }
+@keyframes fade-out { from{opacity:1} to{opacity:0} }
+@keyframes slide-up   { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+@keyframes slide-down { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:none} }
+@keyframes slide-left { from{opacity:0;transform:translateX(16px)} to{opacity:1;transform:none} }
+@keyframes scale-in   { from{opacity:0;transform:scale(.92)} to{opacity:1;transform:scale(1)} }
+@keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.15)} 100%{transform:scale(1)} }
+@keyframes pulse-glow {
+  0%,100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50%      { box-shadow: 0 0 0 8px transparent; }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes count-up { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+/* Apply classes */
+.anim-fade-in    { animation: fade-in   .35s ease both; }
+.anim-slide-up   { animation: slide-up  .4s cubic-bezier(.4,0,.2,1) both; }
+.anim-slide-down { animation: slide-down .4s cubic-bezier(.4,0,.2,1) both; }
+.anim-slide-left { animation: slide-left .4s cubic-bezier(.4,0,.2,1) both; }
+.anim-scale-in   { animation: scale-in  .3s cubic-bezier(.4,0,.2,1) both; }
+.anim-pop        { animation: pop .25s ease; }
+.anim-float      { animation: float 3s ease-in-out infinite; }
+.anim-pulse-glow { animation: pulse-glow 2s ease infinite; }
+
+/* Stagger delays */
+.delay-1 { animation-delay: .05s; }
+.delay-2 { animation-delay: .10s; }
+.delay-3 { animation-delay: .15s; }
+.delay-4 { animation-delay: .20s; }
+.delay-5 { animation-delay: .25s; }
+.delay-6 { animation-delay: .30s; }
+
+/* Scroll reveal (JS adds .revealed) */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .5s ease, transform .5s cubic-bezier(.4,0,.2,1);
+}
+.reveal.revealed { opacity: 1; transform: none; }
+
+/* Recommendation result pulse */
+.result-card-enter {
+  animation: slide-up .45s cubic-bezier(.4,0,.2,1) both;
+}
+
+/* FPS counter animation */
+.fps-number {
+  animation: count-up .5s ease both;
+}
+
+/* Nav active indicator */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 20px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: transform .2s ease;
+}
+.nav-link.active::after { transform: translateX(-50%) scaleX(1); }
+
+/* Button ripple */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.08);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--t-fast);
+}
+.btn:active::after { opacity: 1; }
+
+/* Card shimmer on hover */
+.mod-card {
+  background-image: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(34,197,94,.04) 0%, transparent 60%);
+}
+
+/* Compatibility indicator */
+@keyframes compat-good {
+  0%   { transform: scale(.8); opacity: 0; }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.compat-icon-anim { animation: compat-good .4s cubic-bezier(.4,0,.2,1) both; }
+
+/* Loading bar */
+.loading-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), #86efac, var(--accent));
+  background-size: 200% 100%;
+  z-index: 9999;
+  animation: loading-bar 1.2s linear infinite;
+}
+@keyframes loading-bar {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Particle dot decorations */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(34,197,94,.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
