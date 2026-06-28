@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Mod Detail — MojoBoost</title>
+<meta name="description" content="Detailed information, installation guide, and compatibility for this Minecraft performance mod."/>
+<meta name="theme-color" content="#22c55e"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/animations.css"/>
+</head>
+<body>
+<div class="page-wrapper">
+
+<nav class="navbar" role="navigation">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">Mojo<span class="logo-boost">Boost</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"         class="nav-link">🏠 Home</a>
+      <a href="mods.html"          class="nav-link">🧩 Mods</a>
+      <a href="calculator.html"    class="nav-link">📊 FPS Calculator</a>
+      <a href="compatibility.html" class="nav-link">✅ Compatibility</a>
+      <a href="about.html"         class="nav-link">ℹ️ About</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="navSearchBtn" aria-label="Search">🔍</button>
+      <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">☀️</button>
+      <button class="nav-btn nav-menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true">
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer-panel">
+    <div class="drawer-header">
+      <span class="font-bold">Menu</span>
+      <button class="drawer-close" id="drawerClose">✕</button>
+    </div>
+    <a href="index.html"         class="drawer-nav-link"><span class="drawer-nav-icon">🏠</span>Home</a>
+    <a href="mods.html"          class="drawer-nav-link"><span class="drawer-nav-icon">🧩</span>Browse Mods</a>
+    <a href="calculator.html"    class="drawer-nav-link"><span class="drawer-nav-icon">📊</span>FPS Calculator</a>
+    <a href="compatibility.html" class="drawer-nav-link"><span class="drawer-nav-icon">✅</span>Compatibility</a>
+    <a href="search.html"        class="drawer-nav-link"><span class="drawer-nav-icon">🔍</span>Search</a>
+    <a href="settings.html"      class="drawer-nav-link"><span class="drawer-nav-icon">⚙️</span>Settings</a>
+    <a href="about.html"         class="drawer-nav-link"><span class="drawer-nav-icon">ℹ️</span>About</a>
+  </div>
+</div>
+
+<main class="main-content">
+<div class="container" style="max-width:860px">
+
+  <a href="mods.html" class="btn btn-ghost btn-sm mb-6" style="display:inline-flex">← Back to Mods</a>
+
+  <!-- Loading state -->
+  <div id="loadingState" style="padding:var(--sp-16);text-align:center">
+    <div class="spinner spinner-lg" style="margin:auto"></div>
+    <p class="text-muted mt-4">Loading mod…</p>
+  </div>
+
+  <!-- Mod detail content -->
+  <div id="modDetail" class="hidden">
+
+    <!-- Header card -->
+    <div class="card" style="margin-bottom:var(--sp-6)">
+      <div style="display:flex;align-items:flex-start;gap:var(--sp-4);flex-wrap:wrap;">
+        <div class="mod-icon" style="width:64px;height:64px;font-size:2rem;flex-shrink:0" id="dIcon"></div>
+        <div style="flex:1;min-width:200px">
+          <div style="display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;margin-bottom:var(--sp-2)">
+            <h1 style="font-size:1.6rem;font-weight:800" id="dName"></h1>
+            <span class="badge badge-green" id="dCategory"></span>
+          </div>
+          <p style="color:var(--text-secondary);line-height:1.6" id="dShortDesc"></p>
+          <div class="mod-tags mt-4" id="dLoaderTags"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:var(--sp-2);align-items:flex-end">
+          <button class="btn btn-primary" id="dDownload" target="_blank" rel="noopener">⬇ Download</button>
+          <button class="btn btn-secondary btn-sm" id="dFav">🤍 Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="grid-4" style="margin-bottom:var(--sp-6)">
+      <div class="card card-sm" style="text-align:center">
+        <div class="stat-value text-sm" id="dFpsGain" style="font-size:1.3rem"></div>
+        <div class="stat-label">Avg FPS Gain</div>
+      </div>
+      <div class="card card-sm" style="text-align:center">
+        <div class="stat-value" id="dPerfRating" style="font-size:1.3rem"></div>
+        <div class="stat-label">Performance</div>
+      </div>
+      <div class="card card-sm" style="text-align:center">
+        <div class="stat-value" id="dMemory" style="font-size:1.3rem"></div>
+        <div class="stat-label">Memory Impact</div>
+      </div>
+      <div class="card card-sm" style="text-align:center">
+        <div class="stat-value" id="dPopularity" style="font-size:1.3rem"></div>
+        <div class="stat-label">Popularity</div>
+      </div>
+    </div>
+
+    <!-- Performance bar -->
+    <div class="card" style="margin-bottom:var(--sp-6)">
+      <h2 style="font-weight:700;margin-bottom:var(--sp-4)">📊 Performance Rating</h2>
+      <div style="display:flex;flex-direction:column;gap:var(--sp-4)">
+        <div>
+          <div class="flex-between mb-4" style="margin-bottom:var(--sp-2)">
+            <span class="text-secondary text-sm">Overall Performance</span>
+            <span class="text-accent font-mono font-bold" id="dPerfPct"></span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="dPerfBar" style="width:0%"></div></div>
+        </div>
+        <div>
+          <div class="flex-between" style="margin-bottom:var(--sp-2)">
+            <span class="text-secondary text-sm">FPS Improvement (avg)</span>
+            <span class="text-accent font-mono font-bold" id="dFpsPct"></span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="dFpsBar" style="width:0%;background:linear-gradient(90deg,#fb923c,#fbbf24)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-wrapper">
+      <div class="tabs" id="detailTabs" style="margin-bottom:var(--sp-5)">
+        <button class="tab-btn active" data-tab="tab-info">📋 Info</button>
+        <button class="tab-btn" data-tab="tab-install">🔧 Install</button>
+        <button class="tab-btn" data-tab="tab-compat">✅ Compatibility</button>
+        <button class="tab-btn" data-tab="tab-versions">🗂 Versions</button>
+      </div>
+
+      <div id="tab-info" class="tab-panel active">
+        <div class="card">
+          <h2 style="font-weight:700;margin-bottom:var(--sp-4)">About this Mod</h2>
+          <p style="color:var(--text-secondary);line-height:1.7" id="dDescription"></p>
+          <div class="divider"></div>
+          <div class="grid-2" style="gap:var(--sp-4)">
+            <div>
+              <div class="text-xs text-muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">FPS Range</div>
+              <div class="font-mono font-bold text-accent" id="dFpsRange"></div>
+            </div>
+            <div>
+              <div class="text-xs text-muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Min Android</div>
+              <div class="font-mono font-bold" id="dMinAndroid"></div>
+            </div>
+            <div>
+              <div class="text-xs text-muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Min RAM</div>
+              <div class="font-mono font-bold" id="dMinRAM"></div>
+            </div>
+            <div>
+              <div class="text-xs text-muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Category</div>
+              <div class="font-mono font-bold" id="dCat2"></div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="text-xs text-muted" style="margin-bottom:var(--sp-2);text-transform:uppercase;letter-spacing:.05em">Tags</div>
+          <div class="mod-tags" id="dTags"></div>
+        </div>
+      </div>
+
+      <div id="tab-install" class="tab-panel">
+        <div class="card">
+          <h2 style="font-weight:700;margin-bottom:var(--sp-4)">🔧 Installation Guide</h2>
+          <div class="card card-sm" style="background:var(--bg-input);border-color:var(--accent-border);margin-bottom:var(--sp-4)">
+            <p style="font-family:var(--font-mono);font-size:.85rem;line-height:1.8;color:var(--text-secondary)" id="dInstall"></p>
+          </div>
+          <h3 style="font-weight:600;margin-bottom:var(--sp-3)">General Steps for Mojo Launcher:</h3>
+          <ol style="display:flex;flex-direction:column;gap:var(--sp-3);padding-left:var(--sp-5)">
+            <li style="color:var(--text-secondary);line-height:1.6">Download the mod <code style="font-family:var(--font-mono);background:var(--bg-input);padding:1px 5px;border-radius:4px">.jar</code> file from the official link below.</li>
+            <li style="color:var(--text-secondary);line-height:1.6">Open Mojo Launcher and navigate to your instance's folder.</li>
+            <li style="color:var(--text-secondary);line-height:1.6">Place the <code style="font-family:var(--font-mono);background:var(--bg-input);padding:1px 5px;border-radius:4px">.jar</code> into the <code style="font-family:var(--font-mono);background:var(--bg-input);padding:1px 5px;border-radius:4px">mods/</code> folder.</li>
+            <li style="color:var(--text-secondary);line-height:1.6">Make sure you have the correct mod loader installed (Fabric / Forge / NeoForge).</li>
+            <li style="color:var(--text-secondary);line-height:1.6">Launch the game and check the mods menu to confirm it loaded.</li>
+          </ol>
+          <div class="divider"></div>
+          <a id="dDownloadLink" href="#" target="_blank" rel="noopener" class="btn btn-primary btn-full">
+            ⬇ Download from Modrinth
+          </a>
+        </div>
+      </div>
+
+      <div id="tab-compat" class="tab-panel">
+        <div class="card">
+          <h2 style="font-weight:700;margin-bottom:var(--sp-4)">✅ Compatibility</h2>
+          <div class="grid-3" style="gap:var(--sp-3);margin-bottom:var(--sp-5)">
+            <div class="card card-sm" style="text-align:center">
+              <div style="font-size:1.5rem;margin-bottom:var(--sp-1)" id="compatArm64Icon"></div>
+              <div style="font-weight:600;font-size:.85rem">ARM64</div>
+              <div class="text-xs text-muted">64-bit</div>
+            </div>
+            <div class="card card-sm" style="text-align:center">
+              <div style="font-size:1.5rem;margin-bottom:var(--sp-1)" id="compatArm32Icon"></div>
+              <div style="font-weight:600;font-size:.85rem">ARM32</div>
+              <div class="text-xs text-muted">32-bit</div>
+            </div>
+            <div class="card card-sm" style="text-align:center">
+              <div style="font-size:1.5rem;margin-bottom:var(--sp-1)" id="compatX86Icon"></div>
+              <div style="font-weight:600;font-size:.85rem">x86</div>
+              <div class="text-xs text-muted">Intel/AMD</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--sp-3)">
+            <div class="flex-between">
+              <span class="text-secondary">Minimum Android Version</span>
+              <span class="badge badge-blue" id="compatMinAndroid"></span>
+            </div>
+            <div class="flex-between">
+              <span class="text-secondary">Minimum RAM</span>
+              <span class="badge badge-purple" id="compatMinRAM"></span>
+            </div>
+            <div class="flex-between">
+              <span class="text-secondary">Memory Usage Impact</span>
+              <span class="badge" id="compatMemBadge"></span>
+            </div>
+            <div class="divider"></div>
+            <div>
+              <div class="text-xs text-muted" style="margin-bottom:var(--sp-2);text-transform:uppercase;letter-spacing:.05em">Supported Loaders</div>
+              <div class="mod-tags" id="compatLoaderTags"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-versions" class="tab-panel">
+        <div class="card">
+          <h2 style="font-weight:700;margin-bottom:var(--sp-4)">🗂 Supported Minecraft Versions</h2>
+          <div class="grid-2" id="versionGrid" style="gap:var(--sp-2)"></div>
+        </div>
+      </div>
+
+    </div><!-- tabs-wrapper -->
+
+    <!-- Related mods -->
+    <div style="margin-top:var(--sp-8)">
+      <h2 class="section-title">🔗 Works Well With</h2>
+      <div class="grid-3" id="relatedGrid"></div>
+    </div>
+
+  </div><!-- modDetail -->
+
+  <!-- Not found -->
+  <div id="notFound" class="hidden empty-state">
+    <div class="empty-icon">😕</div>
+    <div class="empty-title">Mod Not Found</div>
+    <div class="empty-desc">The mod you're looking for doesn't exist or the URL is incorrect.</div>
+    <a href="mods.html" class="btn btn-primary mt-4">Browse All Mods</a>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="font-bold">Mojo<span class="text-accent">Boost</span></span>
+    <p class="footer-copy">© 2024 MojoBoost. Not affiliated with Mojang.</p>
+    <div class="footer-links">
+      <a href="about.html" class="footer-link">About</a>
+      <a href="settings.html" class="footer-link">Settings</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="js/mods-data.js"></script>
+<script src="js/recommendation-engine.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(location.search);
+  const id     = params.get("id");
+  const mod    = MODS_DB.find(m => m.id === id);
+
+  document.getElementById("loadingState").classList.add("hidden");
+
+  if (!mod) {
+    document.getElementById("notFound").classList.remove("hidden");
+    return;
+  }
+
+  document.title = mod.name + " — MojoBoost";
+  document.querySelector("meta[name=description]").content = mod.shortDesc;
+  document.getElementById("modDetail").classList.remove("hidden");
+
+  // Header
+  document.getElementById("dIcon").textContent      = mod.icon;
+  document.getElementById("dName").textContent      = mod.name;
+  document.getElementById("dCategory").textContent  = MOD_CATEGORIES[mod.category]?.label || mod.category;
+  document.getElementById("dShortDesc").textContent = mod.shortDesc;
+
+  const loaderTags = document.getElementById("dLoaderTags");
+  loaderTags.innerHTML = mod.loaders.map(l => `<span class="tag tag-loader">${l}</span>`).join("") +
+    mod.versions.slice(-3).reverse().map(v => `<span class="tag tag-version">${v}</span>`).join("");
+
+  // Download
+  document.getElementById("dDownload").onclick = () => window.open(mod.downloadUrl, "_blank", "noopener");
+  document.getElementById("dDownloadLink").href = mod.downloadUrl;
+
+  // Fav
+  const favBtn = document.getElementById("dFav");
+  function updateFavBtn() {
+    const isFav = Favorites.has(mod.id);
+    favBtn.textContent = isFav ? "❤️ Saved" : "🤍 Save";
+    favBtn.className   = "btn btn-sm " + (isFav ? "btn-danger" : "btn-secondary");
+  }
+  updateFavBtn();
+  favBtn.addEventListener("click", () => { Favorites.toggle(mod.id); updateFavBtn(); });
+
+  // Stats
+  document.getElementById("dFpsGain").textContent    = mod.fpsGain.avg > 0 ? "+" + mod.fpsGain.avg + " FPS" : "Utility";
+  document.getElementById("dPerfRating").textContent = mod.performanceRating + "%";
+  document.getElementById("dMemory").textContent     = mod.memoryMB < 0 ? "-" + Math.abs(mod.memoryMB) + " MB" : mod.memoryMB === 0 ? "Neutral" : "+" + mod.memoryMB + " MB";
+  document.getElementById("dPopularity").textContent = mod.popularity + "%";
+
+  // Performance bars (animate after paint)
+  setTimeout(() => {
+    document.getElementById("dPerfBar").style.width = mod.performanceRating + "%";
+    const fpsBarPct = Math.min(100, (mod.fpsGain.avg / 150) * 100);
+    document.getElementById("dFpsBar").style.width = fpsBarPct + "%";
+  }, 100);
+  document.getElementById("dPerfPct").textContent = mod.performanceRating + "%";
+  document.getElementById("dFpsPct").textContent  = mod.fpsGain.avg > 0 ? "+" + mod.fpsGain.avg + " avg FPS" : "Utility mod";
+
+  // Tab info
+  document.getElementById("dDescription").textContent = mod.description;
+  document.getElementById("dFpsRange").textContent    = mod.fpsGain.avg > 0 ? "+" + mod.fpsGain.min + " – +" + mod.fpsGain.max + " FPS" : "N/A";
+  document.getElementById("dMinAndroid").textContent  = "Android " + mod.minAndroid + "+";
+  document.getElementById("dMinRAM").textContent      = mod.minRAM + " GB+";
+  document.getElementById("dCat2").textContent        = MOD_CATEGORIES[mod.category]?.label || mod.category;
+  document.getElementById("dTags").innerHTML          = mod.tags.map(t => `<span class="tag tag-version">${t}</span>`).join("");
+
+  // Install
+  document.getElementById("dInstall").textContent = mod.installInstructions;
+
+  // Compat tab
+  const archIcon = ok => ok ? "✅" : "❌";
+  document.getElementById("compatArm64Icon").textContent = archIcon(mod.compatibility.arm64);
+  document.getElementById("compatArm32Icon").textContent = archIcon(mod.compatibility.arm32);
+  document.getElementById("compatX86Icon").textContent   = archIcon(mod.compatibility.x86);
+  document.getElementById("compatMinAndroid").textContent = "Android " + mod.minAndroid + "+";
+  document.getElementById("compatMinRAM").textContent     = mod.minRAM + " GB+";
+
+  const memBadge = document.getElementById("compatMemBadge");
+  if (mod.memoryMB < -100) { memBadge.textContent = "Saves " + Math.abs(mod.memoryMB) + "+ MB"; memBadge.className = "badge badge-green"; }
+  else if (mod.memoryMB < 0) { memBadge.textContent = "Saves ~" + Math.abs(mod.memoryMB) + " MB"; memBadge.className = "badge badge-blue"; }
+  else if (mod.memoryMB === 0) { memBadge.textContent = "Neutral"; memBadge.className = "badge badge-gray"; }
+  else { memBadge.textContent = "+" + mod.memoryMB + " MB"; memBadge.className = "badge badge-orange"; }
+
+  document.getElementById("compatLoaderTags").innerHTML = mod.loaders.map(l => `<span class="tag tag-loader">${l}</span>`).join("");
+
+  // Versions
+  document.getElementById("versionGrid").innerHTML = mod.versions.map(v => `
+    <div class="card card-sm flex-between">
+      <span class="font-mono" style="font-size:.9rem">Minecraft ${v}</span>
+      <span class="badge badge-green">✓ Supported</span>
+    </div>`).join("");
+
+  // Related mods (same category, different mod)
+  const related = MODS_DB.filter(m => m.id !== mod.id && (m.category === mod.category || m.loaders.some(l => mod.loaders.includes(l)))).slice(0, 3);
+  document.getElementById("relatedGrid").innerHTML = related.map(m => renderModCard(m)).join("");
+
+  // Tab switching
+  document.getElementById("detailTabs").querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(btn.dataset.tab)?.classList.add("active");
+    });
+  });
+
+  initScrollReveal();
+});
+</script>
+</body>
+</html>

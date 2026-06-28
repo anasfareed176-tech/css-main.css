@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Compatibility Checker — MojoBoost</title>
+<meta name="description" content="Check which Minecraft mods are compatible with your Android device, version, and mod loader."/>
+<meta name="theme-color" content="#22c55e"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/animations.css"/>
+</head>
+<body>
+<div class="page-wrapper">
+
+<nav class="navbar" role="navigation">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">Mojo<span class="logo-boost">Boost</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"         class="nav-link">🏠 Home</a>
+      <a href="mods.html"          class="nav-link">🧩 Mods</a>
+      <a href="calculator.html"    class="nav-link">📊 FPS Calculator</a>
+      <a href="compatibility.html" class="nav-link">✅ Compatibility</a>
+      <a href="about.html"         class="nav-link">ℹ️ About</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="navSearchBtn" aria-label="Search">🔍</button>
+      <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">☀️</button>
+      <button class="nav-btn nav-menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true">
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer-panel">
+    <div class="drawer-header">
+      <span class="font-bold">Menu</span>
+      <button class="drawer-close" id="drawerClose">✕</button>
+    </div>
+    <a href="index.html"         class="drawer-nav-link"><span class="drawer-nav-icon">🏠</span>Home</a>
+    <a href="mods.html"          class="drawer-nav-link"><span class="drawer-nav-icon">🧩</span>Browse Mods</a>
+    <a href="calculator.html"    class="drawer-nav-link"><span class="drawer-nav-icon">📊</span>FPS Calculator</a>
+    <a href="compatibility.html" class="drawer-nav-link"><span class="drawer-nav-icon">✅</span>Compatibility</a>
+    <a href="search.html"        class="drawer-nav-link"><span class="drawer-nav-icon">🔍</span>Search</a>
+    <a href="settings.html"      class="drawer-nav-link"><span class="drawer-nav-icon">⚙️</span>Settings</a>
+    <a href="about.html"         class="drawer-nav-link"><span class="drawer-nav-icon">ℹ️</span>About</a>
+  </div>
+</div>
+
+<main class="main-content">
+<div class="container" style="max-width:860px">
+
+  <h1 class="section-title">✅ Compatibility Checker</h1>
+  <p class="section-subtitle">See exactly which mods work with your device and setup.</p>
+
+  <!-- Config form -->
+  <div class="card" style="margin-bottom:var(--sp-6)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-4)">📱 Your Setup</h2>
+    <div class="grid-2" style="gap:var(--sp-4)">
+      <div class="form-group">
+        <label class="form-label">Minecraft Version</label>
+        <select class="form-select" id="cc-version">
+          <option value="1.21" selected>1.21</option>
+          <option value="1.20">1.20.x</option>
+          <option value="1.19">1.19.x</option>
+          <option value="1.18">1.18.x</option>
+          <option value="1.17">1.17.x</option>
+          <option value="1.16">1.16.x</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mod Loader</label>
+        <select class="form-select" id="cc-loader">
+          <option value="Fabric" selected>Fabric</option>
+          <option value="Quilt">Quilt</option>
+          <option value="NeoForge">NeoForge</option>
+          <option value="Forge">Forge</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Android Version</label>
+        <select class="form-select" id="cc-android">
+          <option value="14">Android 14</option>
+          <option value="13">Android 13</option>
+          <option value="12" selected>Android 12</option>
+          <option value="11">Android 11</option>
+          <option value="10">Android 10</option>
+          <option value="9">Android 9</option>
+          <option value="8">Android 8</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Device RAM</label>
+        <select class="form-select" id="cc-ram">
+          <option value="1">1 GB</option>
+          <option value="2">2 GB</option>
+          <option value="3">3 GB</option>
+          <option value="4" selected>4 GB</option>
+          <option value="6">6 GB</option>
+          <option value="8">8 GB+</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">CPU Architecture</label>
+        <select class="form-select" id="cc-arch">
+          <option value="ARM64 (64-bit)" selected>ARM64 (64-bit)</option>
+          <option value="ARM32 (32-bit)">ARM32 (32-bit)</option>
+          <option value="x86">x86</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Android Version</label>
+        <select class="form-select" id="cc-android2" style="display:none"></select>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-4" id="checkBtn" style="margin-top:var(--sp-4)">✅ Check Compatibility</button>
+  </div>
+
+  <!-- Results -->
+  <div id="compatResults" class="hidden">
+
+    <!-- Summary -->
+    <div class="grid-4" style="margin-bottom:var(--sp-6)">
+      <div class="card card-sm" style="text-align:center;background:rgba(34,197,94,.1);border-color:var(--accent-border)">
+        <div class="stat-value" id="cr-compatible" style="font-size:1.5rem;color:var(--accent)">0</div>
+        <div class="stat-label">Compatible</div>
+      </div>
+      <div class="card card-sm" style="text-align:center;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2)">
+        <div class="stat-value" id="cr-incompatible" style="font-size:1.5rem;color:#f87171">0</div>
+        <div class="stat-label">Incompatible</div>
+      </div>
+      <div class="card card-sm" style="text-align:center">
+        <div class="stat-value" id="cr-total" style="font-size:1.5rem">0</div>
+        <div class="stat-label">Total Checked</div>
+      </div>
+      <div class="card card-sm" style="text-align:center;background:rgba(34,197,94,.06)">
+        <div class="stat-value" id="cr-pct" style="font-size:1.5rem;color:var(--accent)">0%</div>
+        <div class="stat-label">Compatible</div>
+      </div>
+    </div>
+
+    <!-- Compatible mods -->
+    <div id="compatibleSection">
+      <h2 class="section-title">✅ Compatible Mods</h2>
+      <div id="compatibleList" style="display:flex;flex-direction:column;gap:var(--sp-3)"></div>
+    </div>
+
+    <!-- Incompatible mods -->
+    <div id="incompatibleSection" style="margin-top:var(--sp-8)">
+      <h2 class="section-title" style="color:#f87171">❌ Incompatible Mods</h2>
+      <div id="incompatibleList" style="display:flex;flex-direction:column;gap:var(--sp-3)"></div>
+    </div>
+
+  </div>
+
+  <!-- Compat matrix (static) -->
+  <div class="card" style="margin-top:var(--sp-8);overflow-x:auto">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-4)">📊 Loader Compatibility Matrix</h2>
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem;min-width:500px">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="text-align:left;padding:var(--sp-2) var(--sp-3);color:var(--text-muted)">Mod</th>
+          <th style="text-align:center;padding:var(--sp-2)">Fabric</th>
+          <th style="text-align:center;padding:var(--sp-2)">Quilt</th>
+          <th style="text-align:center;padding:var(--sp-2)">Forge</th>
+          <th style="text-align:center;padding:var(--sp-2)">NeoForge</th>
+        </tr>
+      </thead>
+      <tbody id="matrixBody"></tbody>
+    </table>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="font-bold">Mojo<span class="text-accent">Boost</span></span>
+    <p class="footer-copy">© 2024 MojoBoost.</p>
+    <div class="footer-links"><a href="about.html" class="footer-link">About</a></div>
+  </div>
+</footer>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="js/mods-data.js"></script>
+<script src="js/recommendation-engine.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  buildMatrix();
+  document.getElementById("checkBtn").addEventListener("click", runCheck);
+});
+
+function runCheck() {
+  const config = {
+    mcVersion:      document.getElementById("cc-version").value,
+    modLoader:      document.getElementById("cc-loader").value,
+    androidVersion: document.getElementById("cc-android").value,
+    ram:            document.getElementById("cc-ram").value,
+    cpuArch:        document.getElementById("cc-arch").value,
+  };
+
+  const compatible   = [];
+  const incompatible = [];
+
+  MODS_DB.forEach(mod => {
+    const result = RecommendationEngine.checkCompat(mod.id, config);
+    if (result.compatible) compatible.push({ mod, result });
+    else incompatible.push({ mod, result });
+  });
+
+  document.getElementById("compatResults").classList.remove("hidden");
+  document.getElementById("cr-compatible").textContent   = compatible.length;
+  document.getElementById("cr-incompatible").textContent = incompatible.length;
+  document.getElementById("cr-total").textContent        = MODS_DB.length;
+  document.getElementById("cr-pct").textContent          = Math.round(compatible.length / MODS_DB.length * 100) + "%";
+
+  document.getElementById("compatibleList").innerHTML = compatible.map(({ mod, result }) => `
+    <div class="card card-sm" style="border-left:3px solid var(--accent)">
+      <div style="display:flex;align-items:center;gap:var(--sp-3)">
+        <span style="font-size:1.3rem">${mod.icon}</span>
+        <div style="flex:1">
+          <div style="font-weight:700">${mod.name}</div>
+          <div class="text-secondary text-xs">${result.reason}</div>
+        </div>
+        <div style="display:flex;gap:var(--sp-2);align-items:center">
+          <span class="badge badge-green">✓ Compatible</span>
+          <a href="mod-detail.html?id=${mod.id}" class="btn btn-ghost btn-sm">Details</a>
+        </div>
+      </div>
+    </div>`).join("");
+
+  document.getElementById("incompatibleList").innerHTML = incompatible.map(({ mod, result }) => `
+    <div class="card card-sm" style="border-left:3px solid #f87171;opacity:.8">
+      <div style="display:flex;align-items:center;gap:var(--sp-3)">
+        <span style="font-size:1.3rem">${mod.icon}</span>
+        <div style="flex:1">
+          <div style="font-weight:700">${mod.name}</div>
+          <div style="color:#f87171;font-size:.78rem">⚠️ ${result.reason}</div>
+        </div>
+        <span class="badge badge-red">✗ Incompatible</span>
+      </div>
+    </div>`).join("");
+
+  document.getElementById("compatResults").scrollIntoView({ behavior: "smooth" });
+  Toast.show(`${compatible.length} of ${MODS_DB.length} mods compatible`, "success");
+}
+
+function buildMatrix() {
+  const loaders = ["Fabric","Quilt","Forge","NeoForge"];
+  const body = document.getElementById("matrixBody");
+  body.innerHTML = MODS_DB.map((mod, i) => `
+    <tr style="border-bottom:1px solid var(--border);${i%2===0?'background:var(--bg-input)':''}">
+      <td style="padding:var(--sp-2) var(--sp-3);font-weight:600">
+        <span style="margin-right:6px">${mod.icon}</span>${mod.name}
+      </td>
+      ${loaders.map(l => `
+        <td style="text-align:center;padding:var(--sp-2)">
+          ${mod.loaders.includes(l) ? '<span style="color:var(--accent)">✓</span>' : '<span style="color:var(--text-muted)">–</span>'}
+        </td>`).join("")}
+    </tr>`).join("");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>FPS Calculator — MojoBoost</title>
+<meta name="description" content="Estimate how much FPS you'll gain from installing Minecraft performance mods on your Android device."/>
+<meta name="theme-color" content="#22c55e"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/animations.css"/>
+</head>
+<body>
+<div class="page-wrapper">
+
+<nav class="navbar" role="navigation">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">Mojo<span class="logo-boost">Boost</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"         class="nav-link">🏠 Home</a>
+      <a href="mods.html"          class="nav-link">🧩 Mods</a>
+      <a href="calculator.html"    class="nav-link">📊 FPS Calculator</a>
+      <a href="compatibility.html" class="nav-link">✅ Compatibility</a>
+      <a href="about.html"         class="nav-link">ℹ️ About</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="navSearchBtn" aria-label="Search">🔍</button>
+      <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">☀️</button>
+      <button class="nav-btn nav-menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true">
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer-panel">
+    <div class="drawer-header">
+      <span class="font-bold">Menu</span>
+      <button class="drawer-close" id="drawerClose">✕</button>
+    </div>
+    <a href="index.html"         class="drawer-nav-link"><span class="drawer-nav-icon">🏠</span>Home</a>
+    <a href="mods.html"          class="drawer-nav-link"><span class="drawer-nav-icon">🧩</span>Browse Mods</a>
+    <a href="calculator.html"    class="drawer-nav-link"><span class="drawer-nav-icon">📊</span>FPS Calculator</a>
+    <a href="compatibility.html" class="drawer-nav-link"><span class="drawer-nav-icon">✅</span>Compatibility</a>
+    <a href="search.html"        class="drawer-nav-link"><span class="drawer-nav-icon">🔍</span>Search</a>
+    <a href="settings.html"      class="drawer-nav-link"><span class="drawer-nav-icon">⚙️</span>Settings</a>
+    <a href="about.html"         class="drawer-nav-link"><span class="drawer-nav-icon">ℹ️</span>About</a>
+  </div>
+</div>
+
+<main class="main-content">
+<div class="container" style="max-width:860px">
+
+  <h1 class="section-title">📊 FPS Calculator</h1>
+  <p class="section-subtitle">Estimate your FPS improvement before and after installing mods.</p>
+
+  <div style="display:grid;grid-template-columns:1fr;gap:var(--sp-6)">
+  <div style="display:grid;grid-template-columns:1fr;gap:var(--sp-6)">
+
+    <!-- Device inputs -->
+    <div class="card">
+      <h2 style="font-weight:700;margin-bottom:var(--sp-5)">📱 Your Device</h2>
+      <div class="grid-2" style="gap:var(--sp-4)">
+        <div class="form-group">
+          <label class="form-label">Device RAM</label>
+          <select class="form-select" id="c-ram">
+            <option value="1">1 GB</option>
+            <option value="2">2 GB</option>
+            <option value="3">3 GB</option>
+            <option value="4" selected>4 GB</option>
+            <option value="6">6 GB</option>
+            <option value="8">8 GB+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">CPU Architecture</label>
+          <select class="form-select" id="c-arch">
+            <option value="ARM64 (64-bit)" selected>ARM64 (64-bit)</option>
+            <option value="ARM32 (32-bit)">ARM32 (32-bit)</option>
+            <option value="x86">x86</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">GPU</label>
+          <select class="form-select" id="c-gpu">
+            <option value="Adreno" selected>Adreno</option>
+            <option value="Mali">Mali</option>
+            <option value="PowerVR">PowerVR</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Performance Goal</label>
+          <select class="form-select" id="c-goal">
+            <option value="Maximum FPS">🚀 Maximum FPS</option>
+            <option value="Balanced" selected>⚖️ Balanced</option>
+            <option value="Best Graphics">🎨 Best Graphics</option>
+            <option value="Battery Saver">🔋 Battery Saver</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group mt-6" style="margin-top:var(--sp-5)">
+        <label class="form-label">Current FPS (without mods)</label>
+        <div class="range-wrap">
+          <input type="range" class="range-input" id="c-currentFps" min="5" max="60" value="20" step="1"/>
+          <div class="range-labels">
+            <span>5 FPS</span>
+            <span class="range-value" id="c-fpsDisplay">20 FPS</span>
+            <span>60 FPS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group mt-4" style="margin-top:var(--sp-4)">
+        <label class="form-label">Render Distance (chunks)</label>
+        <div class="range-wrap">
+          <input type="range" class="range-input" id="c-renderDist" min="2" max="16" value="8" step="1"/>
+          <div class="range-labels">
+            <span>2</span>
+            <span class="range-value" id="c-rdDisplay">8 chunks</span>
+            <span>16</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mod selection -->
+    <div class="card">
+      <div class="flex-between mb-6" style="margin-bottom:var(--sp-4)">
+        <h2 style="font-weight:700">🧩 Select Mods to Include</h2>
+        <div style="display:flex;gap:var(--sp-2)">
+          <button class="btn btn-secondary btn-sm" id="selectAll">All</button>
+          <button class="btn btn-ghost btn-sm" id="clearAll">None</button>
+        </div>
+      </div>
+      <div id="modCheckList" style="display:flex;flex-direction:column;gap:var(--sp-1)"></div>
+    </div>
+
+  </div>
+
+  <!-- Results panel -->
+  <div class="card" style="background:var(--accent-glow);border-color:var(--accent-border)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-5)">📈 Estimated Results</h2>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-4);margin-bottom:var(--sp-6);text-align:center">
+      <div>
+        <div class="text-xs text-muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Before</div>
+        <div class="stat-value" id="r-before" style="color:var(--text-muted);font-size:1.8rem">—</div>
+        <div class="text-xs text-muted">FPS</div>
+      </div>
+      <div>
+        <div class="text-xs text-muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">After</div>
+        <div class="stat-value fps-number" id="r-after" style="font-size:1.8rem">—</div>
+        <div class="text-xs text-muted">FPS</div>
+      </div>
+      <div>
+        <div class="text-xs text-muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Gain</div>
+        <div class="stat-value" id="r-gain" style="color:var(--accent);font-size:1.8rem">—</div>
+        <div class="text-xs text-muted">percent</div>
+      </div>
+    </div>
+
+    <!-- FPS bar visualizer -->
+    <div style="margin-bottom:var(--sp-4)">
+      <div class="flex-between" style="margin-bottom:var(--sp-2)">
+        <span class="text-secondary text-sm">Before mods</span>
+        <span class="font-mono text-sm" id="r-beforeLabel">20 FPS</span>
+      </div>
+      <div class="progress-bar" style="height:12px;margin-bottom:var(--sp-3)">
+        <div class="progress-fill" id="r-beforeBar" style="width:33%;background:linear-gradient(90deg,#6b7280,#9ca3af)"></div>
+      </div>
+      <div class="flex-between" style="margin-bottom:var(--sp-2)">
+        <span class="text-secondary text-sm">After mods</span>
+        <span class="font-mono text-sm text-accent" id="r-afterLabel">— FPS</span>
+      </div>
+      <div class="progress-bar" style="height:12px">
+        <div class="progress-fill" id="r-afterBar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-full" id="calcBtn">⚡ Calculate Now</button>
+
+    <!-- Mod contributions -->
+    <div id="modContribs" class="hidden" style="margin-top:var(--sp-5)">
+      <div class="divider"></div>
+      <h3 style="font-weight:600;margin-bottom:var(--sp-3);font-size:.9rem">FPS Contribution by Mod</h3>
+      <div id="contribList" style="display:flex;flex-direction:column;gap:var(--sp-2)"></div>
+    </div>
+  </div>
+
+  </div><!-- grid -->
+
+  <!-- Tips -->
+  <div class="card mt-6" style="margin-top:var(--sp-6)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-4)">💡 FPS Tips for Mobile</h2>
+    <div class="grid-2" style="gap:var(--sp-3)">
+      <div class="card card-sm" style="background:var(--bg-input)">
+        <div style="font-size:1.3rem;margin-bottom:var(--sp-2)">📐</div>
+        <div style="font-weight:600;margin-bottom:4px">Lower Render Distance</div>
+        <p class="text-secondary text-sm">Dropping from 12 to 6 chunks can double your FPS on low-end devices.</p>
+      </div>
+      <div class="card card-sm" style="background:var(--bg-input)">
+        <div style="font-size:1.3rem;margin-bottom:var(--sp-2)">🎨</div>
+        <div style="font-weight:600;margin-bottom:4px">Use Fast Graphics</div>
+        <p class="text-secondary text-sm">Turn off fancy graphics, smooth lighting, and clouds for big FPS boosts.</p>
+      </div>
+      <div class="card card-sm" style="background:var(--bg-input)">
+        <div style="font-size:1.3rem;margin-bottom:var(--sp-2)">🧠</div>
+        <div style="font-weight:600;margin-bottom:4px">Allocate More RAM</div>
+        <p class="text-secondary text-sm">In Mojo Launcher, allocate 1.5–2 GB RAM for best performance without crashes.</p>
+      </div>
+      <div class="card card-sm" style="background:var(--bg-input)">
+        <div style="font-size:1.3rem;margin-bottom:var(--sp-2)">🌡️</div>
+        <div style="font-weight:600;margin-bottom:4px">Keep Device Cool</div>
+        <p class="text-secondary text-sm">Thermal throttling can cut FPS in half. Take breaks or use a cooling pad.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="font-bold">Mojo<span class="text-accent">Boost</span></span>
+    <p class="footer-copy">© 2024 MojoBoost. Estimates are approximate.</p>
+    <div class="footer-links">
+      <a href="about.html" class="footer-link">About</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="js/mods-data.js"></script>
+<script src="js/recommendation-engine.js"></script>
+<script src="js/app.js"></script>
+<script>
+const selectedMods = new Set();
+
+document.addEventListener("DOMContentLoaded", () => {
+  buildModChecklist();
+
+  // Range inputs
+  const fpsSlider = document.getElementById("c-currentFps");
+  const rdSlider  = document.getElementById("c-renderDist");
+  fpsSlider.addEventListener("input", () => {
+    document.getElementById("c-fpsDisplay").textContent = fpsSlider.value + " FPS";
+    calculate();
+  });
+  rdSlider.addEventListener("input", () => {
+    document.getElementById("c-rdDisplay").textContent = rdSlider.value + " chunks";
+    calculate();
+  });
+
+  ["c-ram","c-arch","c-gpu","c-goal"].forEach(id =>
+    document.getElementById(id).addEventListener("change", calculate)
+  );
+
+  document.getElementById("calcBtn").addEventListener("click", calculate);
+  document.getElementById("selectAll").addEventListener("click", () => {
+    MODS_DB.forEach(m => selectedMods.add(m.id));
+    document.querySelectorAll(".calc-check").forEach(cb => cb.checked = true);
+    calculate();
+  });
+  document.getElementById("clearAll").addEventListener("click", () => {
+    selectedMods.clear();
+    document.querySelectorAll(".calc-check").forEach(cb => cb.checked = false);
+    calculate();
+  });
+
+  // Pre-select recommended
+  ["sodium","lithium","ferritecore","modernfix","entityculling"].forEach(id => {
+    selectedMods.add(id);
+    const cb = document.getElementById("cb-" + id);
+    if (cb) cb.checked = true;
+  });
+  calculate();
+});
+
+function buildModChecklist() {
+  const list = document.getElementById("modCheckList");
+  list.innerHTML = MODS_DB.map(mod => `
+    <label style="display:flex;align-items:center;gap:var(--sp-3);padding:8px var(--sp-3);
+      border-radius:var(--r-sm);cursor:pointer;transition:background var(--t-fast)"
+      onmouseenter="this.style.background='var(--border)'"
+      onmouseleave="this.style.background='transparent'">
+      <input type="checkbox" class="calc-check" id="cb-${mod.id}" data-mod="${mod.id}"
+        style="accent-color:var(--accent);width:15px;height:15px;cursor:pointer"/>
+      <span style="font-size:1.1rem">${mod.icon}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:600;font-size:.88rem">${mod.name}</div>
+        <div class="text-xs text-muted">${mod.fpsGain.avg > 0 ? "+" + mod.fpsGain.avg + " avg FPS" : "Utility"} · ${mod.loaders[0]}</div>
+      </div>
+      ${mod.featured ? '<span class="badge badge-green" style="font-size:.6rem">Top</span>' : ""}
+    </label>`).join("");
+
+  document.querySelectorAll(".calc-check").forEach(cb => {
+    cb.addEventListener("change", () => {
+      if (cb.checked) selectedMods.add(cb.dataset.mod);
+      else selectedMods.delete(cb.dataset.mod);
+      calculate();
+    });
+  });
+}
+
+function calculate() {
+  const baseFps  = parseInt(document.getElementById("c-currentFps").value);
+  const rd       = parseInt(document.getElementById("c-renderDist").value);
+  const ram      = parseInt(document.getElementById("c-ram").value);
+  const goal     = document.getElementById("c-goal").value;
+
+  // Render distance penalty
+  const rdFactor = rd <= 6 ? 1.0 : rd <= 10 ? 0.85 : rd <= 12 ? 0.70 : 0.55;
+
+  const mods = MODS_DB.filter(m => selectedMods.has(m.id));
+
+  // Calculate gains with diminishing returns
+  let totalGain = 0;
+  const contribs = [];
+  mods.forEach((mod, i) => {
+    const factor = Math.pow(0.78, i);
+    let gain = mod.fpsGain.avg * factor;
+
+    // Goal multiplier
+    if (goal === "Maximum FPS") gain *= 1.2;
+    else if (goal === "Battery Saver") gain *= 0.6;
+    else if (goal === "Best Graphics") gain *= 0.8;
+
+    // RAM penalty
+    if (ram <= 2) gain *= 0.7;
+    else if (ram <= 3) gain *= 0.85;
+
+    gain = Math.round(gain);
+    totalGain += gain;
+    if (gain > 0) contribs.push({ mod, gain });
+  });
+
+  contribs.sort((a,b) => b.gain - a.gain);
+
+  const afterFps   = Math.round(Math.min((baseFps + totalGain) * rdFactor * 1.05, 144));
+  const pctGain    = baseFps > 0 ? Math.round(((afterFps - baseFps) / baseFps) * 100) : 0;
+
+  // Update UI
+  document.getElementById("r-before").textContent      = baseFps;
+  document.getElementById("r-after").textContent       = afterFps;
+  document.getElementById("r-gain").textContent        = "+" + pctGain + "%";
+  document.getElementById("r-beforeLabel").textContent = baseFps + " FPS";
+  document.getElementById("r-afterLabel").textContent  = afterFps + " FPS";
+
+  const maxFps = 144;
+  document.getElementById("r-beforeBar").style.width = (baseFps / maxFps * 100) + "%";
+  document.getElementById("r-afterBar").style.width  = (afterFps / maxFps * 100) + "%";
+
+  // Contributions
+  const contribDiv = document.getElementById("modContribs");
+  if (contribs.length > 0) {
+    contribDiv.classList.remove("hidden");
+    const maxGain = contribs[0].gain;
+    document.getElementById("contribList").innerHTML = contribs.map(c => `
+      <div style="display:flex;align-items:center;gap:var(--sp-3)">
+        <span style="font-size:1rem;width:20px;text-align:center">${c.mod.icon}</span>
+        <span style="font-size:.8rem;min-width:120px;color:var(--text-secondary)">${c.mod.name}</span>
+        <div class="progress-bar" style="flex:1;height:6px">
+          <div class="progress-fill" style="width:${(c.gain/maxGain*100)}%"></div>
+        </div>
+        <span class="font-mono text-accent" style="font-size:.78rem;min-width:52px;text-align:right">+${c.gain} FPS</span>
+      </div>`).join("");
+  } else {
+    contribDiv.classList.add("hidden");
+  }
+}
+</script>
+</body>
+</html>

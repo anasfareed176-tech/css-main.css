@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>About — MojoBoost</title>
+<meta name="description" content="About MojoBoost — the best Minecraft performance mod recommender for Mojo Launcher on Android."/>
+<meta name="theme-color" content="#22c55e"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/animations.css"/>
+</head>
+<body>
+<div class="page-wrapper">
+
+<nav class="navbar" role="navigation">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">Mojo<span class="logo-boost">Boost</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"         class="nav-link">🏠 Home</a>
+      <a href="mods.html"          class="nav-link">🧩 Mods</a>
+      <a href="calculator.html"    class="nav-link">📊 FPS Calculator</a>
+      <a href="compatibility.html" class="nav-link">✅ Compatibility</a>
+      <a href="about.html"         class="nav-link">ℹ️ About</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="navSearchBtn" aria-label="Search">🔍</button>
+      <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">☀️</button>
+      <button class="nav-btn nav-menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true">
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer-panel">
+    <div class="drawer-header"><span class="font-bold">Menu</span><button class="drawer-close" id="drawerClose">✕</button></div>
+    <a href="index.html"         class="drawer-nav-link"><span class="drawer-nav-icon">🏠</span>Home</a>
+    <a href="mods.html"          class="drawer-nav-link"><span class="drawer-nav-icon">🧩</span>Browse Mods</a>
+    <a href="calculator.html"    class="drawer-nav-link"><span class="drawer-nav-icon">📊</span>FPS Calculator</a>
+    <a href="compatibility.html" class="drawer-nav-link"><span class="drawer-nav-icon">✅</span>Compatibility</a>
+    <a href="search.html"        class="drawer-nav-link"><span class="drawer-nav-icon">🔍</span>Search</a>
+    <a href="settings.html"      class="drawer-nav-link"><span class="drawer-nav-icon">⚙️</span>Settings</a>
+    <a href="about.html"         class="drawer-nav-link"><span class="drawer-nav-icon">ℹ️</span>About</a>
+  </div>
+</div>
+
+<main class="main-content">
+<div class="container" style="max-width:760px">
+
+  <!-- Hero -->
+  <div style="text-align:center;padding-block:var(--sp-8);position:relative">
+    <div style="font-size:4rem;margin-bottom:var(--sp-4)" class="anim-float">⚡</div>
+    <h1 style="font-size:2rem;font-weight:800;margin-bottom:var(--sp-3)">About Mojo<span class="text-accent">Boost</span></h1>
+    <p class="text-secondary" style="max-width:480px;margin-inline:auto;line-height:1.7">
+      MojoBoost helps Android Minecraft players get the most FPS out of their device by recommending the right performance mods for their exact setup.
+    </p>
+  </div>
+
+  <!-- Mission -->
+  <div class="card reveal" style="margin-bottom:var(--sp-4)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-3)">🎯 Why MojoBoost?</h2>
+    <p class="text-secondary" style="line-height:1.7;margin-bottom:var(--sp-3)">
+      Playing Minecraft Java Edition on Android through Mojo Launcher or PojavLauncher is amazing — but the performance can vary wildly depending on which mods you install. Installing the wrong mod, or missing a critical one, can mean the difference between 10 FPS and 60 FPS.
+    </p>
+    <p class="text-secondary" style="line-height:1.7">
+      MojoBoost takes the guesswork out. Enter your device specs, select your goals, and get a personalized list of mods that are guaranteed to be compatible and optimized for your hardware.
+    </p>
+  </div>
+
+  <!-- Features -->
+  <div class="card reveal" style="margin-bottom:var(--sp-4)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-4)">✨ Features</h2>
+    <div style="display:flex;flex-direction:column;gap:var(--sp-3)">
+      <div style="display:flex;gap:var(--sp-3);align-items:flex-start">
+        <span style="font-size:1.2rem;flex-shrink:0">🤖</span>
+        <div>
+          <div style="font-weight:600">Smart Recommendation Engine</div>
+          <p class="text-secondary text-sm">Rule-based system that scores every mod against your hardware, OS version, and performance goal.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:var(--sp-3);align-items:flex-start">
+        <span style="font-size:1.2rem;flex-shrink:0">📊</span>
+        <div>
+          <div style="font-weight:600">FPS Calculator</div>
+          <p class="text-secondary text-sm">Estimate your exact FPS improvement before and after installing mods, with per-mod contribution breakdown.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:var(--sp-3);align-items:flex-start">
+        <span style="font-size:1.2rem;flex-shrink:0">✅</span>
+        <div>
+          <div style="font-weight:600">Compatibility Checker</div>
+          <p class="text-secondary text-sm">Instantly see which mods work with your exact Minecraft version, mod loader, and Android device.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:var(--sp-3);align-items:flex-start">
+        <span style="font-size:1.2rem;flex-shrink:0">📴</span>
+        <div>
+          <div style="font-weight:600">Works Offline</div>
+          <p class="text-secondary text-sm">Full PWA with service worker caching — use MojoBoost even without an internet connection.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:var(--sp-3);align-items:flex-start">
+        <span style="font-size:1.2rem;flex-shrink:0">❤️</span>
+        <div>
+          <div style="font-weight:600">Save Favorites</div>
+          <p class="text-secondary text-sm">Bookmark mods you love. Stored locally in your browser — no account required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mods covered -->
+  <div class="card reveal" style="margin-bottom:var(--sp-4)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-4)">🧩 Mods in Our Database</h2>
+    <div class="grid-2" style="gap:var(--sp-2)" id="aboutModList"></div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="card reveal" style="margin-bottom:var(--sp-4);border-color:rgba(251,146,60,.2);background:rgba(251,146,60,.05)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-3)">⚠️ Disclaimer</h2>
+    <p class="text-secondary text-sm" style="line-height:1.7">
+      MojoBoost is an independent community project. We are not affiliated with Mojang, Microsoft, Mojo Launcher, or any mod authors. All mod download links point to official Modrinth pages. Always download mods from official sources only.
+    </p>
+    <p class="text-secondary text-sm" style="line-height:1.7;margin-top:var(--sp-3)">
+      FPS estimates are approximate and based on community benchmarks. Actual performance will vary by device.
+    </p>
+  </div>
+
+  <!-- Links -->
+  <div class="card reveal" style="margin-bottom:var(--sp-4)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-4)">🔗 Useful Links</h2>
+    <div style="display:flex;flex-direction:column;gap:var(--sp-3)">
+      <a href="https://modrinth.com" target="_blank" rel="noopener"
+         class="card card-sm flex-between" style="text-decoration:none">
+        <div>
+          <div style="font-weight:600">Modrinth</div>
+          <div class="text-secondary text-sm">Official mod downloads</div>
+        </div>
+        <span class="text-accent">↗</span>
+      </a>
+      <a href="https://fabricmc.net" target="_blank" rel="noopener"
+         class="card card-sm flex-between" style="text-decoration:none">
+        <div>
+          <div style="font-weight:600">Fabric Loader</div>
+          <div class="text-secondary text-sm">The recommended mod loader for performance</div>
+        </div>
+        <span class="text-accent">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:var(--sp-8)">
+    <a href="index.html" class="btn btn-primary btn-lg">⚡ Start Optimizing</a>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="font-bold">Mojo<span class="text-accent">Boost</span></span>
+    <p class="footer-copy">© 2024 MojoBoost. Made with ❤️ for the Android Minecraft community.</p>
+    <div class="footer-links">
+      <a href="settings.html" class="footer-link">Settings</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="js/mods-data.js"></script>
+<script src="js/recommendation-engine.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("aboutModList").innerHTML = MODS_DB.map(m => `
+    <a href="mod-detail.html?id=${m.id}" class="card card-sm flex-between"
+       style="text-decoration:none;padding:var(--sp-2) var(--sp-3)">
+      <div style="display:flex;align-items:center;gap:var(--sp-2)">
+        <span>${m.icon}</span>
+        <span style="font-weight:600;font-size:.85rem">${m.name}</span>
+      </div>
+      <span class="text-accent text-xs">↗</span>
+    </a>`).join("");
+});
+</script>
+</body>
+</html>

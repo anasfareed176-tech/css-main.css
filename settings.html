@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Settings — MojoBoost</title>
+<meta name="theme-color" content="#22c55e"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/animations.css"/>
+</head>
+<body>
+<div class="page-wrapper">
+
+<nav class="navbar" role="navigation">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">Mojo<span class="logo-boost">Boost</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"         class="nav-link">🏠 Home</a>
+      <a href="mods.html"          class="nav-link">🧩 Mods</a>
+      <a href="calculator.html"    class="nav-link">📊 FPS Calculator</a>
+      <a href="compatibility.html" class="nav-link">✅ Compatibility</a>
+      <a href="about.html"         class="nav-link">ℹ️ About</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">☀️</button>
+      <button class="nav-btn nav-menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true">
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer-panel">
+    <div class="drawer-header"><span class="font-bold">Menu</span><button class="drawer-close" id="drawerClose">✕</button></div>
+    <a href="index.html"         class="drawer-nav-link"><span class="drawer-nav-icon">🏠</span>Home</a>
+    <a href="mods.html"          class="drawer-nav-link"><span class="drawer-nav-icon">🧩</span>Browse Mods</a>
+    <a href="calculator.html"    class="drawer-nav-link"><span class="drawer-nav-icon">📊</span>FPS Calculator</a>
+    <a href="compatibility.html" class="drawer-nav-link"><span class="drawer-nav-icon">✅</span>Compatibility</a>
+    <a href="search.html"        class="drawer-nav-link"><span class="drawer-nav-icon">🔍</span>Search</a>
+    <a href="settings.html"      class="drawer-nav-link"><span class="drawer-nav-icon">⚙️</span>Settings</a>
+    <a href="about.html"         class="drawer-nav-link"><span class="drawer-nav-icon">ℹ️</span>About</a>
+  </div>
+</div>
+
+<main class="main-content">
+<div class="container" style="max-width:620px">
+
+  <h1 class="section-title">⚙️ Settings</h1>
+
+  <!-- Appearance -->
+  <div class="card" style="margin-bottom:var(--sp-4)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-4)">🎨 Appearance</h2>
+
+    <div style="display:flex;flex-direction:column;gap:var(--sp-3)">
+
+      <div class="flex-between" style="padding:var(--sp-3) 0;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-weight:600">Theme</div>
+          <div class="text-secondary text-sm">Dark or light interface</div>
+        </div>
+        <div style="display:flex;gap:var(--sp-2)">
+          <button class="btn btn-sm" id="setDark" onclick="setTheme('dark')">🌙 Dark</button>
+          <button class="btn btn-sm" id="setLight" onclick="setTheme('light')">☀️ Light</button>
+        </div>
+      </div>
+
+      <div class="flex-between" style="padding:var(--sp-3) 0;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-weight:600">Animations</div>
+          <div class="text-secondary text-sm">Smooth transitions and effects</div>
+        </div>
+        <label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer">
+          <input type="checkbox" id="animToggle" style="opacity:0;width:0;height:0"
+                 onchange="saveSetting('animationsEnabled', this.checked)"/>
+          <span id="animSlider" style="position:absolute;inset:0;background:var(--border);border-radius:12px;transition:.2s;cursor:pointer">
+            <span style="position:absolute;left:3px;top:3px;width:18px;height:18px;background:white;border-radius:50%;transition:.2s" id="animThumb"></span>
+          </span>
+        </label>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Defaults -->
+  <div class="card" style="margin-bottom:var(--sp-4)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-4)">⚡ Recommendation Defaults</h2>
+    <div style="display:flex;flex-direction:column;gap:var(--sp-4)">
+      <div class="form-group">
+        <label class="form-label">Default Mod Loader</label>
+        <select class="form-select" id="s-loader" onchange="saveSetting('defaultLoader', this.value)">
+          <option value="Fabric">Fabric</option>
+          <option value="Quilt">Quilt</option>
+          <option value="NeoForge">NeoForge</option>
+          <option value="Forge">Forge</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Default Performance Goal</label>
+        <select class="form-select" id="s-goal" onchange="saveSetting('defaultGoal', this.value)">
+          <option value="Maximum FPS">🚀 Maximum FPS</option>
+          <option value="Balanced">⚖️ Balanced</option>
+          <option value="Best Graphics">🎨 Best Graphics</option>
+          <option value="Battery Saver">🔋 Battery Saver</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data -->
+  <div class="card" style="margin-bottom:var(--sp-4)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-4)">💾 Data</h2>
+    <div style="display:flex;flex-direction:column;gap:var(--sp-3)">
+
+      <div class="flex-between" style="padding:var(--sp-3) 0;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-weight:600">Favorites</div>
+          <div class="text-secondary text-sm" id="favSummary">0 mods saved</div>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="clearFavs()">Clear</button>
+      </div>
+
+      <div class="flex-between" style="padding:var(--sp-3) 0;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-weight:600">Cached Data</div>
+          <div class="text-secondary text-sm">Service worker cache for offline use</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="clearCache()">Clear Cache</button>
+      </div>
+
+      <div class="flex-between" style="padding:var(--sp-3) 0">
+        <div>
+          <div style="font-weight:600">Reset All Settings</div>
+          <div class="text-secondary text-sm">Restore all defaults</div>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="resetAll()">Reset</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PWA install -->
+  <div class="card" id="pwaCard" style="margin-bottom:var(--sp-4);display:none">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-3)">📲 Install App</h2>
+    <p class="text-secondary text-sm" style="margin-bottom:var(--sp-4)">Install MojoBoost to your home screen for offline access and a faster experience.</p>
+    <button class="btn btn-primary btn-full" id="installBtn">📲 Install MojoBoost</button>
+  </div>
+
+  <!-- About row -->
+  <div class="card" style="margin-bottom:var(--sp-4)">
+    <h2 style="font-weight:700;margin-bottom:var(--sp-4)">ℹ️ About</h2>
+    <div style="display:flex;flex-direction:column;gap:var(--sp-2)">
+      <div class="flex-between"><span class="text-secondary">Version</span><span class="font-mono">1.0.0</span></div>
+      <div class="flex-between"><span class="text-secondary">Mods in database</span><span class="font-mono">16</span></div>
+      <div class="flex-between"><span class="text-secondary">Last updated</span><span class="font-mono">2024</span></div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="font-bold">Mojo<span class="text-accent">Boost</span></span>
+    <p class="footer-copy">© 2024 MojoBoost.</p>
+  </div>
+</footer>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="js/mods-data.js"></script>
+<script src="js/recommendation-engine.js"></script>
+<script src="js/app.js"></script>
+<script>
+let deferredPrompt = null;
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadSettings();
+  updateFavSummary();
+  initToggle();
+});
+
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById("pwaCard").style.display = "block";
+  document.getElementById("installBtn").addEventListener("click", () => {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => { deferredPrompt = null; document.getElementById("pwaCard").style.display = "none"; });
+  });
+});
+
+function loadSettings() {
+  const s = Settings.get();
+  document.getElementById("s-loader").value = s.defaultLoader;
+  document.getElementById("s-goal").value   = s.defaultGoal;
+  document.getElementById("animToggle").checked = s.animationsEnabled;
+  updateToggleUI(s.animationsEnabled);
+  updateThemeBtns(s.theme || Theme.get());
+}
+
+function saveSetting(key, value) {
+  Settings.set({ [key]: value });
+  Toast.show("Setting saved", "success", 1500);
+}
+
+function setTheme(t) {
+  localStorage.setItem("mojoboost-theme", t);
+  Theme.apply(t);
+  Settings.set({ theme: t });
+  updateThemeBtns(t);
+  Toast.show(t === "dark" ? "Dark mode on" : "Light mode on", "info", 1500);
+}
+
+function updateThemeBtns(t) {
+  document.getElementById("setDark").className  = "btn btn-sm " + (t === "dark"  ? "btn-primary" : "btn-secondary");
+  document.getElementById("setLight").className = "btn btn-sm " + (t === "light" ? "btn-primary" : "btn-secondary");
+}
+
+function initToggle() {
+  document.getElementById("animToggle").addEventListener("change", function() {
+    updateToggleUI(this.checked);
+  });
+}
+
+function updateToggleUI(on) {
+  const slider = document.getElementById("animSlider");
+  const thumb  = document.getElementById("animThumb");
+  slider.style.background = on ? "var(--accent)" : "var(--border)";
+  thumb.style.transform   = on ? "translateX(20px)" : "translateX(0)";
+}
+
+function updateFavSummary() {
+  const count = Favorites.getAll().length;
+  document.getElementById("favSummary").textContent = count + " mod" + (count !== 1 ? "s" : "") + " saved";
+}
+
+function clearFavs() {
+  Favorites.clear();
+  updateFavSummary();
+}
+
+function clearCache() {
+  caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => {
+    Toast.show("Cache cleared", "success");
+  });
+}
+
+function resetAll() {
+  Settings.reset();
+  Favorites.clear();
+  Theme.apply("dark");
+  loadSettings();
+  updateFavSummary();
+  Toast.show("All settings reset", "info");
+}
+</script>
+</body>
+</html>

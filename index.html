@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MojoBoost — Best Minecraft Performance Mods for Mojo Launcher</title>
+<meta name="description" content="Get personalized Minecraft performance mod recommendations for Mojo Launcher on Android. Boost FPS, reduce lag, save battery."/>
+<meta name="theme-color" content="#22c55e"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/animations.css"/>
+</head>
+<body>
+<div class="page-wrapper">
+
+<!-- Navbar -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">Mojo<span class="logo-boost">Boost</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"         class="nav-link">🏠 Home</a>
+      <a href="mods.html"          class="nav-link">🧩 Mods</a>
+      <a href="calculator.html"    class="nav-link">📊 FPS Calculator</a>
+      <a href="compatibility.html" class="nav-link">✅ Compatibility</a>
+      <a href="about.html"         class="nav-link">ℹ️ About</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="navSearchBtn" aria-label="Search mods">🔍</button>
+      <button class="nav-btn" id="themeToggle"  aria-label="Toggle theme">☀️</button>
+      <button class="nav-btn nav-menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Drawer -->
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer-panel">
+    <div class="drawer-header">
+      <span class="font-bold">Menu</span>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+    </div>
+    <a href="index.html"         class="drawer-nav-link"><span class="drawer-nav-icon">🏠</span>Home</a>
+    <a href="mods.html"          class="drawer-nav-link"><span class="drawer-nav-icon">🧩</span>Browse Mods</a>
+    <a href="calculator.html"    class="drawer-nav-link"><span class="drawer-nav-icon">📊</span>FPS Calculator</a>
+    <a href="compatibility.html" class="drawer-nav-link"><span class="drawer-nav-icon">✅</span>Compatibility</a>
+    <a href="search.html"        class="drawer-nav-link"><span class="drawer-nav-icon">🔍</span>Search</a>
+    <a href="settings.html"      class="drawer-nav-link"><span class="drawer-nav-icon">⚙️</span>Settings</a>
+    <a href="about.html"         class="drawer-nav-link"><span class="drawer-nav-icon">ℹ️</span>About</a>
+  </div>
+</div>
+
+<main class="main-content">
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">⚡ Built for Mojo Launcher · Android</div>
+    <h1 class="hero-title">
+      Boost Your Minecraft FPS<br>
+      <span class="accent">Up to 300%</span>
+    </h1>
+    <p class="hero-desc">
+      Tell us about your device and we'll recommend the perfect combination of performance mods — no guesswork, no crashes, no wasted time.
+    </p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg" onclick="document.getElementById('recommender').scrollIntoView({behavior:'smooth'})">
+        ⚡ Get My Mod List
+      </button>
+      <a href="mods.html" class="btn btn-secondary btn-lg">🧩 Browse All Mods</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-value" id="statMods">16</div><div class="stat-label">Mods Covered</div></div>
+      <div class="stat-item"><div class="stat-value">300%</div><div class="stat-label">Max FPS Gain</div></div>
+      <div class="stat-item"><div class="stat-value">1 GB</div><div class="stat-label">RAM Saved</div></div>
+      <div class="stat-item"><div class="stat-value">Free</div><div class="stat-label">Always</div></div>
+    </div>
+  </section>
+
+  <!-- Recommender -->
+  <section class="section" id="recommender">
+    <h2 class="section-title">⚡ Get Your Personalized Mod List</h2>
+    <p class="section-subtitle">Fill in your setup and we'll instantly recommend the best mods for your device.</p>
+
+    <div class="card card-glass" style="max-width:720px;margin-inline:auto;">
+      <div class="grid-2" style="gap:var(--sp-4)">
+
+        <div class="form-group">
+          <label class="form-label" for="r-version">Minecraft Version <span class="required">*</span></label>
+          <select class="form-select" id="r-version">
+            <option value="">Select version…</option>
+            <option value="1.21">1.21</option>
+            <option value="1.20">1.20.x</option>
+            <option value="1.19">1.19.x</option>
+            <option value="1.18">1.18.x</option>
+            <option value="1.17">1.17.x</option>
+            <option value="1.16">1.16.x</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="r-loader">Mod Loader <span class="required">*</span></label>
+          <select class="form-select" id="r-loader">
+            <option value="Fabric" selected>Fabric (Recommended)</option>
+            <option value="Quilt">Quilt</option>
+            <option value="NeoForge">NeoForge</option>
+            <option value="Forge">Forge</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="r-launcher">Launcher</label>
+          <select class="form-select" id="r-launcher">
+            <option value="Mojo Launcher" selected>Mojo Launcher</option>
+            <option value="PojavLauncher">PojavLauncher</option>
+            <option value="Official Launcher">Official Launcher</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="r-android">Android Version</label>
+          <select class="form-select" id="r-android">
+            <option value="14">Android 14</option>
+            <option value="13">Android 13</option>
+            <option value="12" selected>Android 12</option>
+            <option value="11">Android 11</option>
+            <option value="10">Android 10</option>
+            <option value="9">Android 9</option>
+            <option value="8">Android 8</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="r-ram">Device RAM</label>
+          <select class="form-select" id="r-ram">
+            <option value="1">1 GB</option>
+            <option value="2">2 GB</option>
+            <option value="3">3 GB</option>
+            <option value="4" selected>4 GB</option>
+            <option value="6">6 GB</option>
+            <option value="8">8 GB+</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="r-arch">CPU Architecture</label>
+          <select class="form-select" id="r-arch">
+            <option value="ARM64 (64-bit)" selected>ARM64 (64-bit)</option>
+            <option value="ARM32 (32-bit)">ARM32 (32-bit)</option>
+            <option value="x86">x86</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="r-gpu">GPU</label>
+          <select class="form-select" id="r-gpu">
+            <option value="Adreno" selected>Adreno (Qualcomm)</option>
+            <option value="Mali">Mali (MediaTek / Samsung)</option>
+            <option value="PowerVR">PowerVR</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="r-goal">Performance Goal</label>
+          <select class="form-select" id="r-goal">
+            <option value="Maximum FPS">🚀 Maximum FPS</option>
+            <option value="Balanced" selected>⚖️ Balanced</option>
+            <option value="Best Graphics">🎨 Best Graphics</option>
+            <option value="Battery Saver">🔋 Battery Saver</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div style="margin-top:var(--sp-6);display:flex;gap:var(--sp-3);flex-wrap:wrap;">
+        <button class="btn btn-primary btn-lg" id="runRecommend" style="flex:1;min-width:200px">
+          ⚡ Recommend Mods
+        </button>
+        <button class="btn btn-ghost" id="resetForm">Reset</button>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="resultsArea" class="hidden" style="margin-top:var(--sp-8)">
+
+      <!-- FPS estimate banner -->
+      <div class="card card-glass" id="fpsBanner" style="margin-bottom:var(--sp-6);background:var(--accent-glow);border-color:var(--accent-border)">
+        <div style="display:flex;align-items:center;gap:var(--sp-6);flex-wrap:wrap;">
+          <div style="text-align:center;flex:1;min-width:120px">
+            <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:4px">BEFORE MODS</div>
+            <div class="stat-value" id="fpsBefore" style="color:var(--text-muted)">—</div>
+            <div style="font-size:.75rem;color:var(--text-muted)">avg FPS</div>
+          </div>
+          <div style="font-size:2rem">→</div>
+          <div style="text-align:center;flex:1;min-width:120px">
+            <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:4px">AFTER MODS</div>
+            <div class="stat-value fps-number" id="fpsAfter">—</div>
+            <div style="font-size:.75rem;color:var(--text-secondary)">avg FPS</div>
+          </div>
+          <div style="text-align:center;flex:1;min-width:120px">
+            <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:4px">IMPROVEMENT</div>
+            <div class="stat-value" id="fpsGain" style="color:var(--accent)">—</div>
+            <div style="font-size:.75rem;color:var(--text-secondary)">percent faster</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Warnings/notes -->
+      <div id="notesArea"></div>
+
+      <!-- Essential mods -->
+      <div id="essentialSection" class="hidden">
+        <div class="flex-between mb-4">
+          <h3 class="section-title" style="margin:0">🟢 Essential Mods</h3>
+          <button class="btn btn-primary btn-sm" id="downloadAllBtn">⬇ Download All</button>
+        </div>
+        <div class="grid-3" id="essentialGrid"></div>
+      </div>
+
+      <!-- Recommended mods -->
+      <div id="recommendedSection" class="hidden" style="margin-top:var(--sp-8)">
+        <h3 class="section-title">🔵 Recommended Mods</h3>
+        <div class="grid-3" id="recommendedGrid"></div>
+      </div>
+
+      <!-- Optional mods -->
+      <div id="optionalSection" class="hidden" style="margin-top:var(--sp-8)">
+        <h3 class="section-title">⚪ Optional Mods</h3>
+        <div class="grid-3" id="optionalGrid"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Featured Mods -->
+  <section class="section">
+    <div class="flex-between mb-6">
+      <h2 class="section-title" style="margin:0">🌟 Top Performance Mods</h2>
+      <a href="mods.html" class="btn btn-ghost btn-sm">View all →</a>
+    </div>
+    <div class="grid-3" id="featuredGrid"></div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section">
+    <h2 class="section-title text-center">How It Works</h2>
+    <div class="grid-3">
+      <div class="card card-sm reveal" style="text-align:center">
+        <div style="font-size:2.5rem;margin-bottom:var(--sp-3)">📱</div>
+        <h3 style="font-weight:700;margin-bottom:var(--sp-2)">Tell Us Your Device</h3>
+        <p class="text-secondary text-sm">Enter your Android version, RAM, CPU, and GPU so we can filter only compatible mods.</p>
+      </div>
+      <div class="card card-sm reveal delay-2" style="text-align:center">
+        <div style="font-size:2.5rem;margin-bottom:var(--sp-3)">🤖</div>
+        <h3 style="font-weight:700;margin-bottom:var(--sp-2)">Smart Recommendations</h3>
+        <p class="text-secondary text-sm">Our rule-based engine scores every mod against your hardware and performance goal.</p>
+      </div>
+      <div class="card card-sm reveal delay-4" style="text-align:center">
+        <div style="font-size:2.5rem;margin-bottom:var(--sp-3)">🚀</div>
+        <h3 style="font-weight:700;margin-bottom:var(--sp-2)">Install & Play</h3>
+        <p class="text-secondary text-sm">Download mods directly from Modrinth and drop them into your Mojo Launcher mods folder.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo">
+        <div class="logo-icon" style="width:24px;height:24px;font-size:.8rem">⚡</div>
+        <span>Mojo<span class="logo-boost">Boost</span></span>
+      </div>
+    </div>
+    <p class="footer-copy">© 2024 MojoBoost. Not affiliated with Mojang or Microsoft.</p>
+    <div class="footer-links">
+      <a href="about.html"    class="footer-link">About</a>
+      <a href="settings.html" class="footer-link">Settings</a>
+    </div>
+  </div>
+</footer>
+
+</div><!-- page-wrapper -->
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="js/mods-data.js"></script>
+<script src="js/recommendation-engine.js"></script>
+<script src="js/app.js"></script>
+<script>
+// Home page logic
+document.addEventListener("DOMContentLoaded", () => {
+  // Featured mods
+  const featured = MODS_DB.filter(m => m.featured).slice(0,3);
+  document.getElementById("featuredGrid").innerHTML = featured.map(m => renderModCard(m)).join("");
+  initScrollReveal();
+
+  // Recommend button
+  document.getElementById("runRecommend").addEventListener("click", runRecommendation);
+  document.getElementById("resetForm").addEventListener("click", () => {
+    document.getElementById("resultsArea").classList.add("hidden");
+    Toast.show("Form reset", "info");
+  });
+});
+
+function runRecommendation() {
+  const config = {
+    mcVersion:      document.getElementById("r-version").value,
+    modLoader:      document.getElementById("r-loader").value,
+    launcher:       document.getElementById("r-launcher").value,
+    androidVersion: document.getElementById("r-android").value,
+    ram:            document.getElementById("r-ram").value,
+    cpuArch:        document.getElementById("r-arch").value,
+    gpu:            document.getElementById("r-gpu").value,
+    goal:           document.getElementById("r-goal").value
+  };
+
+  if (!config.mcVersion) { Toast.show("Please select a Minecraft version", "warning"); return; }
+
+  const btn = document.getElementById("runRecommend");
+  btn.textContent = "⏳ Analyzing…";
+  btn.disabled = true;
+
+  setTimeout(() => {
+    const result = RecommendationEngine.recommend(config);
+    renderResults(result);
+    btn.textContent = "⚡ Recommend Mods";
+    btn.disabled = false;
+    document.getElementById("resultsArea").scrollIntoView({ behavior: "smooth" });
+  }, 400);
+}
+
+function renderResults(result) {
+  const area = document.getElementById("resultsArea");
+  area.classList.remove("hidden");
+
+  // FPS banner
+  document.getElementById("fpsBefore").textContent = result.fpsEstimate.before + " FPS";
+  document.getElementById("fpsAfter").textContent  = result.fpsEstimate.after  + " FPS";
+  document.getElementById("fpsGain").textContent   = "+" + result.fpsEstimate.percentage + "%";
+
+  // Notes & warnings
+  const notesArea = document.getElementById("notesArea");
+  notesArea.innerHTML = [...result.warnings, ...result.notes].map(n =>
+    `<div class="card card-sm" style="margin-bottom:var(--sp-3);border-left:3px solid ${n.type==='warning'?'#fbbf24':'#60a5fa'}">
+      <p class="text-sm">${n.text}</p>
+    </div>`
+  ).join("");
+
+  // Essential
+  const essSection = document.getElementById("essentialSection");
+  const essGrid    = document.getElementById("essentialGrid");
+  if (result.essential.length > 0) {
+    essGrid.innerHTML = result.essential.map((r,i) => renderResultCard(r,i)).join("");
+    essSection.classList.remove("hidden");
+
+    // Download all
+    document.getElementById("downloadAllBtn").onclick = () =>
+      handleDownloadAll(result.essential.map(r => r.mod));
+  } else {
+    essSection.classList.add("hidden");
+  }
+
+  // Recommended
+  const recSection = document.getElementById("recommendedSection");
+  const recGrid    = document.getElementById("recommendedGrid");
+  if (result.recommended.length > 0) {
+    recGrid.innerHTML = result.recommended.map((r,i) => renderResultCard(r,i)).join("");
+    recSection.classList.remove("hidden");
+  } else { recSection.classList.add("hidden"); }
+
+  // Optional
+  const optSection = document.getElementById("optionalSection");
+  const optGrid    = document.getElementById("optionalGrid");
+  if (result.optional.length > 0) {
+    optGrid.innerHTML = result.optional.map((r,i) => renderResultCard(r,i)).join("");
+    optSection.classList.remove("hidden");
+  } else { optSection.classList.add("hidden"); }
+
+  initScrollReveal();
+  Toast.show(`Found ${result.all.length} compatible mods!`, "success");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Browse Mods — MojoBoost</title>
+<meta name="description" content="Browse all Minecraft performance mods supported by MojoBoost. Filter by loader, version, category and sort by FPS gain."/>
+<meta name="theme-color" content="#22c55e"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/animations.css"/>
+</head>
+<body>
+<div class="page-wrapper">
+
+<nav class="navbar" role="navigation">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">Mojo<span class="logo-boost">Boost</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"         class="nav-link">🏠 Home</a>
+      <a href="mods.html"          class="nav-link">🧩 Mods</a>
+      <a href="calculator.html"    class="nav-link">📊 FPS Calculator</a>
+      <a href="compatibility.html" class="nav-link">✅ Compatibility</a>
+      <a href="about.html"         class="nav-link">ℹ️ About</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="navSearchBtn" aria-label="Search">🔍</button>
+      <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">☀️</button>
+      <button class="nav-btn nav-menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true">
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer-panel">
+    <div class="drawer-header">
+      <span class="font-bold">Menu</span>
+      <button class="drawer-close" id="drawerClose">✕</button>
+    </div>
+    <a href="index.html"         class="drawer-nav-link"><span class="drawer-nav-icon">🏠</span>Home</a>
+    <a href="mods.html"          class="drawer-nav-link"><span class="drawer-nav-icon">🧩</span>Browse Mods</a>
+    <a href="calculator.html"    class="drawer-nav-link"><span class="drawer-nav-icon">📊</span>FPS Calculator</a>
+    <a href="compatibility.html" class="drawer-nav-link"><span class="drawer-nav-icon">✅</span>Compatibility</a>
+    <a href="search.html"        class="drawer-nav-link"><span class="drawer-nav-icon">🔍</span>Search</a>
+    <a href="settings.html"      class="drawer-nav-link"><span class="drawer-nav-icon">⚙️</span>Settings</a>
+    <a href="about.html"         class="drawer-nav-link"><span class="drawer-nav-icon">ℹ️</span>About</a>
+  </div>
+</div>
+
+<main class="main-content">
+<div class="container">
+
+  <div class="flex-between mb-6" style="flex-wrap:wrap;gap:var(--sp-3)">
+    <div>
+      <h1 class="section-title" style="margin-bottom:4px">🧩 Browse Mods</h1>
+      <p class="text-secondary text-sm"><span id="modCount">16</span> mods available</p>
+    </div>
+    <a href="index.html" class="btn btn-primary btn-sm">⚡ Get Recommendations</a>
+  </div>
+
+  <!-- Search bar -->
+  <div class="search-wrap mb-6">
+    <span class="search-icon">🔍</span>
+    <input type="search" class="form-input search-input" id="modsSearch"
+           placeholder="Search mods by name, category, or description…" autocomplete="off"/>
+    <button class="search-clear" id="searchClear" aria-label="Clear search">✕</button>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <div class="filter-chips" id="loaderFilters">
+      <span class="text-xs text-muted" style="margin-right:4px">Loader:</span>
+      <button class="filter-chip active" data-filter="loader" data-value="all">All</button>
+      <button class="filter-chip" data-filter="loader" data-value="Fabric">Fabric</button>
+      <button class="filter-chip" data-filter="loader" data-value="Quilt">Quilt</button>
+      <button class="filter-chip" data-filter="loader" data-value="Forge">Forge</button>
+      <button class="filter-chip" data-filter="loader" data-value="NeoForge">NeoForge</button>
+    </div>
+  </div>
+
+  <div class="filter-bar" style="margin-top:calc(-1 * var(--sp-3))">
+    <div class="filter-chips" id="categoryFilters">
+      <span class="text-xs text-muted" style="margin-right:4px">Category:</span>
+      <button class="filter-chip active" data-filter="cat" data-value="all">All</button>
+      <button class="filter-chip" data-filter="cat" data-value="rendering">🎨 Rendering</button>
+      <button class="filter-chip" data-filter="cat" data-value="memory">🧠 Memory</button>
+      <button class="filter-chip" data-filter="cat" data-value="logic">⚙️ Logic</button>
+      <button class="filter-chip" data-filter="cat" data-value="worldgen">🌍 World Gen</button>
+      <button class="filter-chip" data-filter="cat" data-value="network">🌐 Network</button>
+      <button class="filter-chip" data-filter="cat" data-value="battery">🔋 Battery</button>
+      <button class="filter-chip" data-filter="cat" data-value="utility">🔧 Utility</button>
+    </div>
+    <div style="margin-left:auto">
+      <select class="form-select sort-select" id="sortSelect">
+        <option value="popularity">Sort: Popular</option>
+        <option value="fps">Sort: FPS Gain</option>
+        <option value="performance">Sort: Performance</option>
+        <option value="memory">Sort: RAM Saved</option>
+        <option value="alpha">Sort: A–Z</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Favorites toggle -->
+  <div class="flex gap-3 mb-6" style="align-items:center">
+    <label style="display:flex;align-items:center;gap:var(--sp-2);cursor:pointer;font-size:.85rem;color:var(--text-secondary)">
+      <input type="checkbox" id="favsOnly" style="accent-color:var(--accent);width:15px;height:15px"/>
+      Show favorites only ❤️
+    </label>
+    <span id="favCount" class="badge badge-gray">0 saved</span>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid-3" id="modsGrid"></div>
+
+  <!-- Empty state -->
+  <div class="empty-state hidden" id="emptyState">
+    <div class="empty-icon">🔍</div>
+    <div class="empty-title">No mods found</div>
+    <div class="empty-desc">Try changing your search or filter settings.</div>
+    <button class="btn btn-secondary btn-sm mt-4" onclick="resetFilters()">Clear Filters</button>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="font-bold">Mojo<span class="text-accent">Boost</span></span>
+    </div>
+    <p class="footer-copy">© 2024 MojoBoost. Not affiliated with Mojang.</p>
+    <div class="footer-links">
+      <a href="about.html" class="footer-link">About</a>
+      <a href="settings.html" class="footer-link">Settings</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="js/mods-data.js"></script>
+<script src="js/recommendation-engine.js"></script>
+<script src="js/app.js"></script>
+<script>
+let activeLoader = "all";
+let activeCat    = "all";
+let activeSearch = "";
+let sortBy       = "popularity";
+let favsOnly     = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderMods();
+  updateFavCount();
+
+  // Search
+  const searchEl = document.getElementById("modsSearch");
+  const clearBtn = document.getElementById("searchClear");
+  searchEl.addEventListener("input", e => {
+    activeSearch = e.target.value.toLowerCase();
+    clearBtn.classList.toggle("visible", activeSearch.length > 0);
+    renderMods();
+  });
+  clearBtn.addEventListener("click", () => {
+    searchEl.value = "";
+    activeSearch = "";
+    clearBtn.classList.remove("visible");
+    renderMods();
+  });
+
+  // Loader filters
+  document.getElementById("loaderFilters").addEventListener("click", e => {
+    const chip = e.target.closest("[data-filter='loader']");
+    if (!chip) return;
+    document.querySelectorAll("[data-filter='loader']").forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+    activeLoader = chip.dataset.value;
+    renderMods();
+  });
+
+  // Category filters
+  document.getElementById("categoryFilters").addEventListener("click", e => {
+    const chip = e.target.closest("[data-filter='cat']");
+    if (!chip) return;
+    document.querySelectorAll("[data-filter='cat']").forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+    activeCat = chip.dataset.value;
+    renderMods();
+  });
+
+  // Sort
+  document.getElementById("sortSelect").addEventListener("change", e => {
+    sortBy = e.target.value;
+    renderMods();
+  });
+
+  // Favs
+  document.getElementById("favsOnly").addEventListener("change", e => {
+    favsOnly = e.target.checked;
+    renderMods();
+  });
+});
+
+function getFilteredMods() {
+  let mods = [...MODS_DB];
+
+  if (activeLoader !== "all") mods = mods.filter(m => m.loaders.includes(activeLoader));
+  if (activeCat    !== "all") mods = mods.filter(m => m.category === activeCat);
+  if (favsOnly)               mods = mods.filter(m => Favorites.has(m.id));
+
+  if (activeSearch) {
+    mods = mods.filter(m =>
+      m.name.toLowerCase().includes(activeSearch) ||
+      m.shortDesc.toLowerCase().includes(activeSearch) ||
+      m.tags.some(t => t.includes(activeSearch)) ||
+      m.category.includes(activeSearch)
+    );
+  }
+
+  // Sort
+  mods.sort((a, b) => {
+    if (sortBy === "fps")         return b.fpsGain.avg - a.fpsGain.avg;
+    if (sortBy === "performance") return b.performanceRating - a.performanceRating;
+    if (sortBy === "memory")      return a.memoryMB - b.memoryMB;
+    if (sortBy === "alpha")       return a.name.localeCompare(b.name);
+    return b.popularity - a.popularity; // default
+  });
+
+  return mods;
+}
+
+function renderMods() {
+  const mods  = getFilteredMods();
+  const grid  = document.getElementById("modsGrid");
+  const empty = document.getElementById("emptyState");
+  document.getElementById("modCount").textContent = mods.length;
+
+  if (mods.length === 0) {
+    grid.innerHTML = "";
+    empty.classList.remove("hidden");
+    return;
+  }
+  empty.classList.add("hidden");
+  grid.innerHTML = mods.map(m => renderModCard(m)).join("");
+  initScrollReveal();
+}
+
+function updateFavCount() {
+  const count = Favorites.getAll().length;
+  document.getElementById("favCount").textContent = count + " saved";
+}
+
+function resetFilters() {
+  activeLoader = "all"; activeCat = "all"; activeSearch = "";
+  document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
+  document.querySelector("[data-filter='loader'][data-value='all']")?.classList.add("active");
+  document.querySelector("[data-filter='cat'][data-value='all']")?.classList.add("active");
+  document.getElementById("modsSearch").value = "";
+  document.getElementById("searchClear").classList.remove("visible");
+  renderMods();
+}
+</script>
+</body>
+</html>

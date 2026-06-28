@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Search Mods — MojoBoost</title>
+<meta name="description" content="Search all Minecraft performance mods in the MojoBoost database."/>
+<meta name="theme-color" content="#22c55e"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/animations.css"/>
+</head>
+<body>
+<div class="page-wrapper">
+
+<nav class="navbar" role="navigation">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">Mojo<span class="logo-boost">Boost</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"         class="nav-link">🏠 Home</a>
+      <a href="mods.html"          class="nav-link">🧩 Mods</a>
+      <a href="calculator.html"    class="nav-link">📊 FPS Calculator</a>
+      <a href="compatibility.html" class="nav-link">✅ Compatibility</a>
+      <a href="about.html"         class="nav-link">ℹ️ About</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">☀️</button>
+      <button class="nav-btn nav-menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true">
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer-panel">
+    <div class="drawer-header">
+      <span class="font-bold">Menu</span>
+      <button class="drawer-close" id="drawerClose">✕</button>
+    </div>
+    <a href="index.html"         class="drawer-nav-link"><span class="drawer-nav-icon">🏠</span>Home</a>
+    <a href="mods.html"          class="drawer-nav-link"><span class="drawer-nav-icon">🧩</span>Browse Mods</a>
+    <a href="calculator.html"    class="drawer-nav-link"><span class="drawer-nav-icon">📊</span>FPS Calculator</a>
+    <a href="compatibility.html" class="drawer-nav-link"><span class="drawer-nav-icon">✅</span>Compatibility</a>
+    <a href="search.html"        class="drawer-nav-link"><span class="drawer-nav-icon">🔍</span>Search</a>
+    <a href="settings.html"      class="drawer-nav-link"><span class="drawer-nav-icon">⚙️</span>Settings</a>
+    <a href="about.html"         class="drawer-nav-link"><span class="drawer-nav-icon">ℹ️</span>About</a>
+  </div>
+</div>
+
+<main class="main-content">
+<div class="container" style="max-width:760px">
+
+  <h1 class="section-title">🔍 Search Mods</h1>
+
+  <div class="search-wrap" style="margin-bottom:var(--sp-4)">
+    <span class="search-icon" style="font-size:1.1rem">🔍</span>
+    <input type="search" class="form-input search-input" id="globalSearch"
+           placeholder="Search by name, tag, category, description…"
+           autofocus autocomplete="off"
+           style="padding-top:14px;padding-bottom:14px;font-size:1rem"/>
+    <button class="search-clear" id="searchClear">✕</button>
+  </div>
+
+  <!-- Quick tags -->
+  <div class="filter-chips" id="quickTags" style="margin-bottom:var(--sp-6)">
+    <span class="text-xs text-muted" style="margin-right:4px">Quick:</span>
+    <button class="filter-chip" data-tag="rendering">🎨 Rendering</button>
+    <button class="filter-chip" data-tag="memory">🧠 Memory</button>
+    <button class="filter-chip" data-tag="mobile">📱 Mobile</button>
+    <button class="filter-chip" data-tag="essential">⭐ Essential</button>
+    <button class="filter-chip" data-tag="battery">🔋 Battery</button>
+    <button class="filter-chip" data-tag="fps">⚡ FPS</button>
+  </div>
+
+  <!-- Results count -->
+  <div class="flex-between mb-4" style="margin-bottom:var(--sp-4)">
+    <span class="text-secondary text-sm" id="resultCount">Showing all 16 mods</span>
+    <select class="form-select sort-select" id="searchSort">
+      <option value="popularity">Popular first</option>
+      <option value="fps">FPS gain first</option>
+      <option value="alpha">A–Z</option>
+    </select>
+  </div>
+
+  <!-- Results as list -->
+  <div id="searchResults" style="display:flex;flex-direction:column;gap:var(--sp-3)"></div>
+
+  <div class="empty-state hidden" id="searchEmpty">
+    <div class="empty-icon">🔍</div>
+    <div class="empty-title">No results found</div>
+    <div class="empty-desc">Try different keywords or browse all mods.</div>
+    <a href="mods.html" class="btn btn-secondary mt-4" style="margin-top:var(--sp-4)">Browse All Mods</a>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="font-bold">Mojo<span class="text-accent">Boost</span></span>
+    <p class="footer-copy">© 2024 MojoBoost.</p>
+  </div>
+</footer>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="js/mods-data.js"></script>
+<script src="js/recommendation-engine.js"></script>
+<script src="js/app.js"></script>
+<script>
+let searchQuery = "";
+let activeTag   = "";
+let sortBy      = "popularity";
+
+document.addEventListener("DOMContentLoaded", () => {
+  const input    = document.getElementById("globalSearch");
+  const clearBtn = document.getElementById("searchClear");
+
+  // Pick up URL query
+  const urlQ = new URLSearchParams(location.search).get("q");
+  if (urlQ) { input.value = urlQ; searchQuery = urlQ.toLowerCase(); }
+
+  renderResults();
+
+  input.addEventListener("input", e => {
+    searchQuery = e.target.value.toLowerCase();
+    activeTag   = "";
+    document.querySelectorAll("#quickTags .filter-chip").forEach(c => c.classList.remove("active"));
+    clearBtn.classList.toggle("visible", searchQuery.length > 0);
+    renderResults();
+  });
+
+  clearBtn.addEventListener("click", () => {
+    input.value = "";
+    searchQuery = "";
+    clearBtn.classList.remove("visible");
+    renderResults();
+  });
+
+  document.getElementById("quickTags").addEventListener("click", e => {
+    const chip = e.target.closest("[data-tag]");
+    if (!chip) return;
+    if (activeTag === chip.dataset.tag) {
+      activeTag = "";
+      chip.classList.remove("active");
+    } else {
+      document.querySelectorAll("#quickTags .filter-chip").forEach(c => c.classList.remove("active"));
+      activeTag = chip.dataset.tag;
+      chip.classList.add("active");
+    }
+    input.value = "";
+    searchQuery = "";
+    clearBtn.classList.remove("visible");
+    renderResults();
+  });
+
+  document.getElementById("searchSort").addEventListener("change", e => {
+    sortBy = e.target.value;
+    renderResults();
+  });
+});
+
+function highlight(text, query) {
+  if (!query) return text;
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
+  return text.replace(regex, '<mark style="background:var(--accent-glow);color:var(--accent);border-radius:3px;padding:0 2px">$1</mark>');
+}
+
+function renderResults() {
+  let mods = [...MODS_DB];
+
+  if (activeTag) {
+    mods = mods.filter(m => m.tags.includes(activeTag) || m.category === activeTag);
+  }
+
+  if (searchQuery) {
+    mods = mods.filter(m =>
+      m.name.toLowerCase().includes(searchQuery) ||
+      m.shortDesc.toLowerCase().includes(searchQuery) ||
+      m.description.toLowerCase().includes(searchQuery) ||
+      m.tags.some(t => t.includes(searchQuery)) ||
+      m.category.includes(searchQuery)
+    );
+  }
+
+  mods.sort((a,b) => {
+    if (sortBy === "fps")   return b.fpsGain.avg - a.fpsGain.avg;
+    if (sortBy === "alpha") return a.name.localeCompare(b.name);
+    return b.popularity - a.popularity;
+  });
+
+  const resultsEl = document.getElementById("searchResults");
+  const emptyEl   = document.getElementById("searchEmpty");
+  const countEl   = document.getElementById("resultCount");
+  const q         = searchQuery;
+
+  if (mods.length === 0) {
+    resultsEl.innerHTML = "";
+    emptyEl.classList.remove("hidden");
+    countEl.textContent = "No results";
+    return;
+  }
+
+  emptyEl.classList.add("hidden");
+  countEl.textContent = `Showing ${mods.length} mod${mods.length !== 1 ? "s" : ""}`;
+
+  resultsEl.innerHTML = mods.map(mod => `
+    <a href="mod-detail.html?id=${mod.id}" class="card card-sm anim-slide-up"
+       style="display:block;text-decoration:none;transition:all var(--t-base)">
+      <div style="display:flex;align-items:center;gap:var(--sp-3)">
+        <div class="mod-icon" style="width:40px;height:40px;font-size:1.15rem;flex-shrink:0">${mod.icon}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;margin-bottom:2px">${highlight(mod.name, q)}</div>
+          <div class="text-secondary text-sm" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+            ${highlight(mod.shortDesc, q)}
+          </div>
+          <div class="mod-tags" style="margin-top:6px">
+            ${mod.loaders.slice(0,2).map(l => `<span class="tag tag-loader">${l}</span>`).join("")}
+            ${mod.fpsGain.avg > 0 ? `<span class="tag tag-fps">+${mod.fpsGain.avg} FPS</span>` : ""}
+            ${mod.memoryMB < -100 ? '<span class="tag tag-mem">💾 Saves RAM</span>' : ""}
+          </div>
+        </div>
+        <div style="flex-shrink:0;text-align:right">
+          <div class="text-accent font-bold font-mono" style="font-size:.85rem">${mod.performanceRating}%</div>
+          <div class="text-xs text-muted">perf</div>
+        </div>
+      </div>
+    </a>`).join("");
+}
+</script>
+</body>
+</html>
