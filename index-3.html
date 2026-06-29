@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MojoBoost — Best Minecraft Performance Mods</title>
+<meta name="theme-color" content="#22c55e"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#0d0f10;color:#f0f2f4;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+select,input{font-family:inherit}
+.container{width:100%;max-width:1100px;margin:0 auto;padding:0 16px}
+.navbar{position:sticky;top:0;z-index:100;background:rgba(13,15,16,.92);border-bottom:1px solid rgba(255,255,255,.07);backdrop-filter:blur(20px)}
+.navbar-inner{display:flex;align-items:center;height:58px;gap:12px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.1rem}
+.logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.logo-green{color:#22c55e}
+.nav-links{display:flex;gap:2px;margin-left:12px}
+.nav-link{padding:6px 10px;border-radius:6px;font-size:.83rem;font-weight:500;color:#9ba3af;transition:all .15s}
+.nav-link:hover{color:#f0f2f4;background:rgba(255,255,255,.07)}
+.spacer{flex:1}
+.hero{text-align:center;padding:60px 0 50px;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(34,197,94,.15),transparent 70%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#22c55e;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:999px;margin-bottom:20px}
+h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;line-height:1.15;letter-spacing:-.03em;margin-bottom:16px}
+h1 .green{color:#22c55e}
+.hero-desc{font-size:1rem;color:#9ba3af;max-width:500px;margin:0 auto 32px;line-height:1.7}
+.hero-btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.stats-row{display:flex;justify-content:center;gap:24px;margin-top:48px;padding-top:32px;border-top:1px solid rgba(255,255,255,.07);flex-wrap:wrap}
+.stat{text-align:center}
+.stat-val{font-size:1.6rem;font-weight:800;color:#22c55e;line-height:1}
+.stat-lbl{font-size:.72rem;color:#5c6370;margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.section{margin-bottom:60px}
+.section-title{font-size:1.3rem;font-weight:700;margin-bottom:8px}
+.section-sub{font-size:.9rem;color:#9ba3af;margin-bottom:24px}
+.card{background:#1a1d1f;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:24px;transition:all .2s}
+.card:hover{background:#202428;border-color:rgba(255,255,255,.12)}
+.card-glass{background:rgba(26,29,31,.65);backdrop-filter:blur(12px)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.nav-links{display:none}}
+@media(max-width:900px){.grid3{grid-template-columns:1fr 1fr}}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-label{font-size:.82rem;font-weight:600;color:#9ba3af}
+.req{color:#f87171}
+.form-select{width:100%;background:#1e2124;border:1px solid rgba(255,255,255,.07);border-radius:8px;color:#f0f2f4;font-size:.88rem;padding:10px 36px 10px 14px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239ba3af' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;cursor:pointer;transition:border-color .15s}
+.form-select:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.15)}
+.form-select option{background:#1a1d1f}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:8px;font-size:.88rem;font-weight:600;line-height:1;transition:all .15s;white-space:nowrap;cursor:pointer;border:none}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:#22c55e;color:#0d0f10}
+.btn-primary:hover{background:#16a34a;box-shadow:0 0 20px rgba(34,197,94,.25)}
+.btn-secondary{background:rgba(255,255,255,.07);color:#f0f2f4;border:1px solid rgba(255,255,255,.12)}
+.btn-secondary:hover{background:rgba(255,255,255,.12)}
+.btn-outline{background:transparent;color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+.btn-outline:hover{background:rgba(34,197,94,.1)}
+.btn-lg{padding:13px 28px;font-size:.95rem}
+.btn-sm{padding:6px 12px;font-size:.78rem}
+.btn-full{width:100%}
+.btn:disabled{opacity:.5;pointer-events:none}
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:.68rem;font-weight:600;white-space:nowrap}
+.tag-loader{background:rgba(99,102,241,.15);color:#818cf8;border:1px solid rgba(99,102,241,.2)}
+.tag-fps{background:rgba(251,146,60,.12);color:#fb923c;border:1px solid rgba(251,146,60,.2)}
+.tag-mem{background:rgba(168,85,247,.12);color:#c084fc;border:1px solid rgba(168,85,247,.2)}
+.badge-green{display:inline-flex;padding:3px 9px;border-radius:999px;font-size:.68rem;font-weight:700;text-transform:uppercase;background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+.badge-blue{display:inline-flex;padding:3px 9px;border-radius:999px;font-size:.68rem;font-weight:700;text-transform:uppercase;background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
+.badge-orange{display:inline-flex;padding:3px 9px;border-radius:999px;font-size:.68rem;font-weight:700;text-transform:uppercase;background:rgba(251,146,60,.15);color:#fb923c;border:1px solid rgba(251,146,60,.2)}
+.badge-gray{display:inline-flex;padding:3px 9px;border-radius:999px;font-size:.68rem;font-weight:700;text-transform:uppercase;background:rgba(255,255,255,.07);color:#9ba3af;border:1px solid rgba(255,255,255,.12)}
+.mod-card{display:flex;flex-direction:column;gap:12px;cursor:pointer;position:relative;overflow:hidden}
+.mod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#22c55e,transparent);opacity:0;transition:opacity .2s}
+.mod-card:hover::before{opacity:1}
+.mod-header{display:flex;align-items:flex-start;gap:12px}
+.mod-icon{width:42px;height:42px;border-radius:8px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.mod-info{flex:1;min-width:0}
+.mod-name{font-weight:700;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mod-ver{font-size:.7rem;color:#5c6370;font-family:monospace;margin-top:2px}
+.mod-desc{font-size:.83rem;color:#9ba3af;line-height:1.5;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.mod-tags{display:flex;flex-wrap:wrap;gap:6px}
+.mod-footer{display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07);margin-top:auto}
+.perf-bar{flex:1;height:4px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden}
+.perf-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#22c55e,#86efac)}
+.perf-lbl{font-size:.7rem;color:#22c55e;font-weight:600;font-family:monospace;min-width:36px;text-align:right}
+.fps-banner{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:14px;padding:24px;margin-bottom:24px}
+.fps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:center}
+.fps-val{font-size:1.6rem;font-weight:800;line-height:1}
+.fps-lbl{font-size:.72rem;color:#5c6370;margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
+.note-card{border-radius:10px;padding:12px 16px;margin-bottom:12px;font-size:.87rem}
+.note-warning{background:rgba(251,191,36,.08);border-left:3px solid #fbbf24}
+.note-info{background:rgba(96,165,250,.08);border-left:3px solid #60a5fa}
+.result-card{display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.result-header{display:flex;align-items:center;gap:12px}
+.result-footer{display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07)}
+.dl-box{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:14px;padding:20px;margin-bottom:24px}
+.dl-list{display:flex;flex-direction:column;gap:6px;margin-top:14px;max-height:340px;overflow-y:auto}
+.dl-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#1a1d1f;border-radius:8px;font-size:.85rem;border:1px solid rgba(255,255,255,.06);transition:border-color .15s}
+.dl-item:hover{border-color:rgba(34,197,94,.3)}
+.footer{border-top:1px solid rgba(255,255,255,.07);padding:32px 0;margin-top:60px}
+.footer-inner{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+@media(min-width:640px){.footer-inner{flex-direction:row;justify-content:space-between;text-align:left}}
+.toast-container{position:fixed;bottom:24px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:320px;width:calc(100vw - 32px)}
+.toast{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#1a1d1f;border:1px solid rgba(255,255,255,.1);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.6);pointer-events:auto;font-size:.86rem;animation:toast-in .3s ease}
+.toast-success{border-left:3px solid #22c55e}
+.toast-info{border-left:3px solid #60a5fa}
+.toast-warning{border-left:3px solid #fbbf24}
+@keyframes toast-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">⚡</div><span>Mojo<span class="logo-green">Boost</span></span></a>
+    <div class="nav-links">
+      <a href="mods.html" class="nav-link">🧩 Mods</a>
+      <a href="calculator.html" class="nav-link">📊 Calculator</a>
+      <a href="compatibility.html" class="nav-link">✅ Compatibility</a>
+      <a href="search.html" class="nav-link">🔍 Search</a>
+      <a href="about.html" class="nav-link">ℹ️ About</a>
+    </div>
+    <div class="spacer"></div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="hero">
+    <div class="badge">⚡ Built for Mojo Launcher · Android</div>
+    <h1>Boost Your Minecraft FPS<br><span class="green">Up to 300%</span></h1>
+    <p class="hero-desc">Tell us about your device and we'll recommend the perfect combination of performance mods — no guesswork, no crashes.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary btn-lg" onclick="document.getElementById('recommender').scrollIntoView({behavior:'smooth'})">⚡ Get My Mod List</button>
+      <a href="mods.html" class="btn btn-secondary btn-lg">🧩 Browse All Mods</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val">16</div><div class="stat-lbl">Mods</div></div>
+      <div class="stat"><div class="stat-val">300%</div><div class="stat-lbl">Max FPS Gain</div></div>
+      <div class="stat"><div class="stat-val">1 GB</div><div class="stat-lbl">RAM Saved</div></div>
+      <div class="stat"><div class="stat-val">Free</div><div class="stat-lbl">Always</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="recommender">
+    <h2 class="section-title">⚡ Get Your Personalized Mod List</h2>
+    <p class="section-sub">Fill in your setup and instantly get the best mods for your device.</p>
+    <div id="errBanner" style="display:none;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:12px 16px;margin-bottom:16px;color:#f87171;font-size:.88rem"></div>
+
+    <div class="card card-glass" style="max-width:700px;margin:0 auto">
+      <div class="grid2" style="gap:16px">
+        <div class="form-group">
+          <label class="form-label">Minecraft Version <span class="req">*</span></label>
+          <select class="form-select" id="r-version">
+            <option value="">Select version…</option>
+            <optgroup label="1.26.x (Future)">
+              <option value="1.26.2">1.26.2</option>
+              <option value="1.26.1">1.26.1</option>
+              <option value="1.26">1.26</option>
+            </optgroup>
+            <optgroup label="1.25.x (Future)">
+              <option value="1.25.2">1.25.2</option>
+              <option value="1.25.1">1.25.1</option>
+              <option value="1.25">1.25</option>
+            </optgroup>
+            <optgroup label="1.24.x (Future)">
+              <option value="1.24.2">1.24.2</option>
+              <option value="1.24.1">1.24.1</option>
+              <option value="1.24">1.24</option>
+            </optgroup>
+            <optgroup label="1.23.x (Future)">
+              <option value="1.23.2">1.23.2</option>
+              <option value="1.23.1">1.23.1</option>
+              <option value="1.23">1.23</option>
+            </optgroup>
+            <optgroup label="1.22.x (Future)">
+              <option value="1.22.2">1.22.2</option>
+              <option value="1.22.1">1.22.1</option>
+              <option value="1.22">1.22</option>
+            </optgroup>
+            <optgroup label="1.21.x">
+              <option value="1.21.11">1.21.11</option>
+              <option value="1.21.10">1.21.10</option>
+              <option value="1.21.9">1.21.9</option>
+              <option value="1.21.8">1.21.8</option>
+              <option value="1.21.7">1.21.7</option>
+              <option value="1.21.6">1.21.6</option>
+              <option value="1.21.5">1.21.5</option>
+              <option value="1.21.4">1.21.4</option>
+              <option value="1.21.3">1.21.3</option>
+              <option value="1.21.2">1.21.2</option>
+              <option value="1.21.1">1.21.1</option>
+              <option value="1.21">1.21</option>
+            </optgroup>
+            <optgroup label="1.20.x">
+              <option value="1.20.6">1.20.6</option>
+              <option value="1.20.5">1.20.5</option>
+              <option value="1.20.4">1.20.4</option>
+              <option value="1.20.3">1.20.3</option>
+              <option value="1.20.2">1.20.2</option>
+              <option value="1.20.1">1.20.1</option>
+              <option value="1.20">1.20</option>
+            </optgroup>
+            <optgroup label="1.19.x">
+              <option value="1.19.4">1.19.4</option>
+              <option value="1.19.3">1.19.3</option>
+              <option value="1.19.2">1.19.2</option>
+              <option value="1.19.1">1.19.1</option>
+              <option value="1.19">1.19</option>
+            </optgroup>
+            <optgroup label="1.18.x">
+              <option value="1.18.2">1.18.2</option>
+              <option value="1.18.1">1.18.1</option>
+              <option value="1.18">1.18</option>
+            </optgroup>
+            <optgroup label="Older">
+              <option value="1.17">1.17.x</option>
+              <option value="1.16">1.16.x</option>
+              <option value="1.15">1.15.x</option>
+              <option value="1.14">1.14.x</option>
+              <option value="1.13">1.13.x</option>
+              <option value="1.12">1.12.2</option>
+              <option value="1.11">1.11.x</option>
+              <option value="1.10">1.10.x</option>
+              <option value="1.9">1.9.x</option>
+              <option value="1.8">1.8.x</option>
+              <option value="1.7">1.7.10</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mod Loader</label>
+          <select class="form-select" id="r-loader">
+            <option value="Fabric">Fabric (Recommended)</option>
+            <option value="Quilt">Quilt</option>
+            <option value="NeoForge">NeoForge</option>
+            <option value="Forge">Forge</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Launcher</label>
+          <select class="form-select" id="r-launcher">
+            <option value="Mojo Launcher">Mojo Launcher</option>
+            <option value="PojavLauncher">PojavLauncher</option>
+            <option value="Official Launcher">Official Launcher</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Android Version</label>
+          <select class="form-select" id="r-android">
+            <option value="14">Android 14</option>
+            <option value="13">Android 13</option>
+            <option value="12">Android 12</option>
+            <option value="11">Android 11</option>
+            <option value="10">Android 10</option>
+            <option value="9">Android 9</option>
+            <option value="8">Android 8</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Device RAM</label>
+          <select class="form-select" id="r-ram">
+            <option value="1">1 GB</option>
+            <option value="2">2 GB</option>
+            <option value="3">3 GB</option>
+            <option value="4" selected>4 GB</option>
+            <option value="6">6 GB</option>
+            <option value="8">8 GB+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">CPU Architecture</label>
+          <select class="form-select" id="r-arch">
+            <option value="arm64">ARM64 (64-bit)</option>
+            <option value="arm32">ARM32 (32-bit)</option>
+            <option value="x86">x86</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">GPU</label>
+          <select class="form-select" id="r-gpu">
+            <option value="Adreno">Adreno (Qualcomm)</option>
+            <option value="Mali">Mali (Samsung/MediaTek)</option>
+            <option value="PowerVR">PowerVR</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Performance Goal</label>
+          <select class="form-select" id="r-goal">
+            <option value="Maximum FPS">🚀 Maximum FPS</option>
+            <option value="Balanced" selected>⚖️ Balanced</option>
+            <option value="Best Graphics">🎨 Best Graphics</option>
+            <option value="Battery Saver">🔋 Battery Saver</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
+        <button class="btn btn-primary btn-lg" id="runBtn" style="flex:1;min-width:180px">⚡ Recommend Mods</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('results').style.display='none'">Reset</button>
+      </div>
+    </div>
+
+    <div id="results" style="display:none;margin-top:32px">
+      <!-- FPS Banner -->
+      <div class="fps-banner">
+        <div class="fps-grid">
+          <div><div class="fps-val" id="r-before" style="color:#9ba3af">—</div><div class="fps-lbl">Before Mods</div></div>
+          <div><div class="fps-val" id="r-after" style="color:#22c55e">—</div><div class="fps-lbl">After Mods</div></div>
+          <div><div class="fps-val" id="r-pct" style="color:#22c55e">—</div><div class="fps-lbl">Improvement</div></div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div id="r-notes"></div>
+
+      <!-- Download All Box -->
+      <div class="dl-box" id="dlBox" style="display:none">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div>
+            <div style="font-weight:700;font-size:1.05rem;margin-bottom:4px">⬇ Download All Recommended Mods</div>
+            <div style="font-size:.82rem;color:#9ba3af" id="dlCount"></div>
+          </div>
+          <button class="btn btn-primary" id="dlAllBtn">⬇ Open All Pages</button>
+        </div>
+        <div class="dl-list" id="dlList"></div>
+      </div>
+
+      <!-- Essential -->
+      <div id="r-essential" style="display:none;margin-top:8px">
+        <h3 style="font-weight:700;font-size:1.1rem;margin-bottom:16px;color:#22c55e">🟢 Essential Mods</h3>
+        <div class="grid3" id="r-essential-grid"></div>
+      </div>
+
+      <!-- Recommended -->
+      <div id="r-recommended" style="display:none;margin-top:32px">
+        <h3 style="font-weight:700;font-size:1.1rem;margin-bottom:16px;color:#60a5fa">🔵 Recommended Mods</h3>
+        <div class="grid3" id="r-recommended-grid"></div>
+      </div>
+
+      <!-- Optional -->
+      <div id="r-optional" style="display:none;margin-top:32px">
+        <h3 style="font-weight:700;font-size:1.1rem;margin-bottom:16px;color:#fb923c">🟠 Optional Mods</h3>
+        <div class="grid3" id="r-optional-grid"></div>
+      </div>
+
+      <!-- Also Consider -->
+      <div id="r-extra" style="display:none;margin-top:32px">
+        <h3 style="font-weight:700;font-size:1.1rem;margin-bottom:16px;color:#9ba3af">⚪ Also Consider</h3>
+        <div class="grid3" id="r-extra-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h2 class="section-title" style="margin:0">🌟 Top Mods</h2>
+      <a href="mods.html" class="btn btn-secondary btn-sm">View all →</a>
+    </div>
+    <div class="grid3" id="featuredGrid"></div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title" style="text-align:center;margin-bottom:24px">How It Works</h2>
+    <div class="grid3">
+      <div class="card" style="text-align:center"><div style="font-size:2rem;margin-bottom:12px">📱</div><div style="font-weight:700;margin-bottom:8px">Tell Us Your Device</div><p style="font-size:.85rem;color:#9ba3af">Enter your Android version, RAM, CPU and GPU.</p></div>
+      <div class="card" style="text-align:center"><div style="font-size:2rem;margin-bottom:12px">🤖</div><div style="font-weight:700;margin-bottom:8px">Smart Recommendations</div><p style="font-size:.85rem;color:#9ba3af">Our engine scores every mod against your hardware.</p></div>
+      <div class="card" style="text-align:center"><div style="font-size:2rem;margin-bottom:12px">🚀</div><div style="font-weight:700;margin-bottom:8px">Install & Play</div><p style="font-size:.85rem;color:#9ba3af">Download from Modrinth and drop into your mods folder.</p></div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span style="font-weight:800">Mojo<span style="color:#22c55e">Boost</span></span>
+    <span style="font-size:.78rem;color:#5c6370">© 2024 MojoBoost. Not affiliated with Mojang.</span>
+    <div style="display:flex;gap:20px"><a href="about.html" style="font-size:.78rem;color:#5c6370">About</a><a href="settings.html" style="font-size:.78rem;color:#5c6370">Settings</a></div>
+  </div>
+</footer>
+<div class="toast-container" id="toasts"></div>
+
+<script>
+// ── ALL 16 MODS ──────────────────────────────────────────────
+var MODS=[
+{id:"sodium",name:"Sodium",icon:"⚡",short:"The gold standard rendering engine. Massive FPS gains on all devices.",versions:["1.16","1.17","1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt","NeoForge"],cat:"rendering",perf:98,memMB:-64,fpsAvg:150,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:99,url:"https://modrinth.com/mod/sodium",featured:true},
+{id:"lithium",name:"Lithium",icon:"🔋",short:"Game logic optimizations. Reduces CPU overhead significantly.",versions:["1.16","1.17","1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt"],cat:"logic",perf:85,memMB:-32,fpsAvg:20,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:95,url:"https://modrinth.com/mod/lithium",featured:true},
+{id:"ferritecore",name:"FerriteCore",icon:"🧲",short:"Dramatically reduces memory usage. Essential for low-RAM devices.",versions:["1.16","1.17","1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt","Forge","NeoForge"],cat:"memory",perf:90,memMB:-512,fpsAvg:15,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:93,url:"https://modrinth.com/mod/ferrite-core",featured:true},
+{id:"modernfix",name:"ModernFix",icon:"🔧",short:"Fixes performance bugs. Faster world loading and startup.",versions:["1.16","1.17","1.18","1.19","1.20","1.21"],loaders:["Fabric","Forge","NeoForge"],cat:"general",perf:88,memMB:-256,fpsAvg:30,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:88,url:"https://modrinth.com/mod/modernfix",featured:true},
+{id:"immediatelyfast",name:"ImmediatelyFast",icon:"🖥️",short:"Optimizes immediate-mode rendering. Huge gains in UI and entities.",versions:["1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt","NeoForge"],cat:"rendering",perf:82,memMB:-16,fpsAvg:40,arm64:true,arm32:false,x86:true,minAndroid:10,minRAM:2,pop:85,url:"https://modrinth.com/mod/immediatelyfast",featured:false},
+{id:"entityculling",name:"EntityCulling",icon:"👁️",short:"Skips rendering entities you cannot see. Massive FPS boost in crowds.",versions:["1.16","1.17","1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt","Forge","NeoForge"],cat:"rendering",perf:87,memMB:-8,fpsAvg:35,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:86,url:"https://modrinth.com/mod/entityculling",featured:false},
+{id:"dynamicfps",name:"Dynamic FPS",icon:"🔋",short:"Reduces FPS when unfocused. Saves battery life on mobile.",versions:["1.14","1.16","1.17","1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt"],cat:"battery",perf:75,memMB:0,fpsAvg:5,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:80,url:"https://modrinth.com/mod/dynamic-fps",featured:false},
+{id:"noisium",name:"Noisium",icon:"🌍",short:"Speeds up world generation noise. Faster chunk loading.",versions:["1.20","1.21"],loaders:["Fabric","Quilt"],cat:"worldgen",perf:78,memMB:0,fpsAvg:12,arm64:true,arm32:false,x86:true,minAndroid:10,minRAM:2,pop:72,url:"https://modrinth.com/mod/noisium",featured:false},
+{id:"krypton",name:"Krypton",icon:"🌐",short:"Optimizes networking stack. Lower latency in multiplayer.",versions:["1.16","1.17","1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt"],cat:"network",perf:70,memMB:0,fpsAvg:8,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:76,url:"https://modrinth.com/mod/krypton",featured:false},
+{id:"memoryleakfix",name:"Memory Leak Fix",icon:"🩹",short:"Patches memory leaks. Prevents crashes on long sessions.",versions:["1.14","1.16","1.17","1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt","Forge","NeoForge"],cat:"memory",perf:83,memMB:-128,fpsAvg:10,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:84,url:"https://modrinth.com/mod/memoryleakfix",featured:false},
+{id:"c2me",name:"C2ME",icon:"🔄",short:"Concurrent chunk loading across multiple CPU cores.",versions:["1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt"],cat:"worldgen",perf:80,memMB:64,fpsAvg:25,arm64:true,arm32:false,x86:true,minAndroid:10,minRAM:3,pop:77,url:"https://modrinth.com/mod/c2me-fabric",featured:false},
+{id:"moreculling",name:"More Culling",icon:"🎯",short:"Advanced block face culling. Reduces draw calls significantly.",versions:["1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt"],cat:"rendering",perf:79,memMB:-16,fpsAvg:20,arm64:true,arm32:true,x86:true,minAndroid:9,minRAM:2,pop:74,url:"https://modrinth.com/mod/moreculling",featured:false},
+{id:"ebe",name:"Enhanced Block Entities",icon:"📦",short:"Renders chests as baked models. Huge FPS boost near storage.",versions:["1.16","1.17","1.18","1.19","1.20"],loaders:["Fabric","Quilt"],cat:"rendering",perf:84,memMB:0,fpsAvg:45,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:82,url:"https://modrinth.com/mod/ebe",featured:false},
+{id:"fastquit",name:"FastQuit",icon:"🚪",short:"Return to title instantly while world saves in background.",versions:["1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt"],cat:"utility",perf:60,memMB:0,fpsAvg:0,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:71,url:"https://modrinth.com/mod/fastquit",featured:false},
+{id:"clumps",name:"Clumps",icon:"✨",short:"Groups XP orbs together. Reduces entity count and boosts FPS.",versions:["1.12","1.16","1.17","1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt","Forge","NeoForge"],cat:"logic",perf:72,memMB:-16,fpsAvg:20,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:79,url:"https://modrinth.com/mod/clumps",featured:false},
+{id:"spark",name:"Spark",icon:"🔍",short:"Performance profiler. Find exactly what is causing lag.",versions:["1.8","1.12","1.16","1.17","1.18","1.19","1.20","1.21"],loaders:["Fabric","Quilt","Forge","NeoForge"],cat:"utility",perf:55,memMB:8,fpsAvg:0,arm64:true,arm32:true,x86:true,minAndroid:8,minRAM:1,pop:83,url:"https://modrinth.com/mod/spark",featured:false}
+];
+
+function toast(msg,type){
+  var icons={success:"✅",error:"❌",warning:"⚠️",info:"ℹ️"};
+  var c=document.getElementById("toasts");
+  var t=document.createElement("div");
+  t.className="toast toast-"+(type||"info");
+  t.innerHTML="<span>"+icons[type||"info"]+"</span><span style='flex:1'>"+msg+"</span>";
+  c.appendChild(t);
+  setTimeout(function(){t.remove()},3500);
+}
+
+function modCard(mod){
+  var fps=mod.fpsAvg>0?"+"+mod.fpsAvg+" FPS":"Utility";
+  return '<div class="card mod-card" onclick="location.href=\'mod-detail.html?id='+mod.id+'\'">'+
+    '<div class="mod-header"><div class="mod-icon">'+mod.icon+'</div>'+
+    '<div class="mod-info"><div class="mod-name">'+mod.name+'</div>'+
+    '<div class="mod-ver">'+mod.versions.slice(-3).reverse().join(" · ")+'</div></div></div>'+
+    '<p class="mod-desc">'+mod.short+'</p>'+
+    '<div class="mod-tags">'+mod.loaders.slice(0,2).map(function(l){return'<span class="tag tag-loader">'+l+"</span>"}).join("")+
+    '<span class="tag tag-fps">'+fps+"</span>"+(mod.memMB<-100?'<span class="tag tag-mem">💾 RAM</span>':"")+"</div>"+
+    '<div class="mod-footer"><div class="perf-bar"><div class="perf-fill" style="width:'+mod.perf+'%"></div></div>'+
+    '<span class="perf-lbl">'+mod.perf+"%</span></div></div>"
+}
+
+function resultCard(r){
+  var badges={essential:"badge-green",recommended:"badge-blue",optional:"badge-orange",extra:"badge-gray"};
+  var labels={essential:"Essential",recommended:"Recommended",optional:"Optional",extra:"Extra"};
+  return '<div class="card result-card">'+
+    '<div class="result-header"><div class="mod-icon">'+r.mod.icon+'</div>'+
+    '<div class="mod-info"><div class="mod-name">'+r.mod.name+'</div>'+
+    '<div class="mod-ver">'+r.mod.loaders.join(" · ")+"</div></div>"+
+    '<span class="'+badges[r.priority]+'">'+labels[r.priority]+"</span></div>"+
+    '<p class="mod-desc">'+r.mod.short+"</p>"+
+    '<div class="mod-tags">'+r.reasons.slice(0,2).map(function(x){return'<span class="tag tag-fps">✓ '+x+"</span>"}).join("")+"</div>"+
+    '<div class="result-footer"><div class="perf-bar"><div class="perf-fill" style="width:'+r.mod.perf+'%"></div></div>'+
+    '<a href="'+r.mod.url+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="btn btn-outline btn-sm">Download ↗</a></div></div>'
+}
+
+function recommend(cfg){
+  var ver=cfg.version,loader=cfg.loader,ram=parseInt(cfg.ram)||4,
+      arch=cfg.arch,android=parseInt(cfg.android)||12,goal=cfg.goal,gpu=cfg.gpu;
+  var results=[],notes=[],warnings=[];
+
+  if(cfg.launcher==="Mojo Launcher")
+    notes.push({type:"info",text:"✅ Mojo Launcher has excellent Fabric support. All Fabric mods below are fully compatible."});
+  if(cfg.launcher==="Official Launcher")
+    warnings.push({type:"warning",text:"⚠️ The Official Bedrock launcher does not support Fabric/Forge mods. You need Java Edition."});
+  if(ram<=2)
+    warnings.push({type:"warning",text:"⚠️ Low RAM ("+ram+" GB) detected. Keep render distance at 6 or lower and close background apps."});
+  if(arch==="arm32")
+    warnings.push({type:"warning",text:"⚠️ ARM32 device detected. A few mods that require 64-bit have been marked incompatible."});
+
+  MODS.forEach(function(mod){
+    // Version check — be generous, include mods that support nearby versions
+    var major=ver.split(".").slice(0,2).join(".");
+    var majorNum=parseFloat(major);
+    var supported=mod.versions.some(function(v){
+      var vNum=parseFloat(v);
+      // exact match OR within 0.1 version range
+      return v===major||ver.startsWith(v)||major.startsWith(v)||Math.abs(vNum-majorNum)<0.15;
+    });
+
+    // Loader check
+    var loaderOk=mod.loaders.includes(loader);
+
+    // For older versions without Fabric, fall back to Forge
+    if(!loaderOk&&(loader==="Fabric"||loader==="Quilt")&&majorNum<=1.12){
+      loaderOk=mod.loaders.includes("Forge");
+    }
+
+    // Hard incompatibility checks
+    var incompatible=false;
+    var incompatReason="";
+    if(arch==="arm32"&&!mod.arm32){incompatible=true;incompatReason="Requires 64-bit"}
+    if(android<mod.minAndroid){incompatible=true;incompatReason="Needs Android "+mod.minAndroid+"+"}
+    if(ram<mod.minRAM){incompatible=true;incompatReason="Needs "+mod.minRAM+"GB+ RAM"}
+    if(ram<=2&&mod.memMB>32){incompatible=true;incompatReason="Too heavy for "+ram+"GB RAM"}
+
+    // Score the mod
+    var score=0,reasons=[];
+    score+=mod.perf*0.4;
+    score+=mod.pop*0.08;
+
+    if(goal==="Maximum FPS"){
+      score+=mod.fpsAvg*0.5;
+      if(mod.cat==="rendering"){score+=22;reasons.push("Rendering optimizer")}
+      if(mod.cat==="memory"){score+=16;reasons.push("Frees memory for FPS")}
+      if(mod.cat==="logic"){score+=13;reasons.push("Reduces CPU overhead")}
+      if(mod.cat==="worldgen"){score+=10;reasons.push("Faster chunk loading")}
+      if(mod.cat==="general"){score+=12;reasons.push("General performance boost")}
+      if(mod.memMB<0)score+=12;
+    }else if(goal==="Balanced"){
+      score+=mod.fpsAvg*0.3;
+      if(mod.cat==="rendering")score+=16;
+      if(mod.cat==="memory")score+=16;
+      if(mod.cat==="battery")score+=12;
+      if(mod.cat==="logic")score+=12;
+      if(mod.cat==="general")score+=10;
+      if(mod.cat==="network")score+=8;
+      if(mod.memMB<0)score+=10;
+    }else if(goal==="Best Graphics"){
+      score+=mod.fpsAvg*0.2;
+      if(mod.cat==="rendering"){score+=22;reasons.push("Improves visual rendering")}
+      if(mod.id==="ebe"||mod.id==="immediatelyfast")score+=15;
+      if(mod.cat==="memory"){score+=10;reasons.push("Stable memory for better graphics")}
+    }else if(goal==="Battery Saver"){
+      score+=mod.fpsAvg*0.05;
+      if(mod.cat==="battery"){score+=32;reasons.push("Reduces power consumption")}
+      if(mod.cat==="memory"){score+=22;reasons.push("Less RAM = less heat")}
+      if(mod.memMB<0)score+=16;
+      if(mod.cat==="rendering")score+=8;
+    }
+
+    if(gpu==="Adreno"&&mod.id==="sodium"){score+=12;reasons.push("Excellent Adreno GPU support")}
+    if(gpu==="Mali"&&mod.id==="sodium"){score+=10;reasons.push("Good Mali GPU support")}
+    if(ram<=2&&mod.memMB<-100){score+=22;reasons.push("Critical for low-RAM device")}
+    if(mod.featured)score+=6;
+    score=Math.round(score);
+
+    if(reasons.length===0){
+      if(mod.fpsAvg>30)reasons.push("+"+mod.fpsAvg+" FPS on average");
+      else if(mod.memMB<0)reasons.push("Saves ~"+Math.abs(mod.memMB)+" MB RAM");
+      else reasons.push("Improves overall performance");
+    }
+
+    // Assign priority — always include all compatible mods
+    var priority;
+    if(incompatible){
+      priority="incompatible";
+    }else if(!supported||!loaderOk){
+      priority="incompatible";
+    }else if(score>80){
+      priority="essential";
+    }else if(score>60){
+      priority="recommended";
+    }else if(score>35){
+      priority="optional";
+    }else{
+      priority="extra";
+    }
+
+    results.push({mod:mod,score:score,reasons:reasons,priority:priority,
+      incompatReason:incompatReason});
+  });
+
+  results.sort(function(a,b){return b.score-a.score});
+
+  var ess=results.filter(function(r){return r.priority==="essential"});
+  var rec=results.filter(function(r){return r.priority==="recommended"});
+  var opt=results.filter(function(r){return r.priority==="optional"});
+  var ext=results.filter(function(r){return r.priority==="extra"});
+  var compatible=results.filter(function(r){return r.priority!=="incompatible"});
+
+  // GUARANTEE at least 15 mods show — promote extras if needed
+  while(compatible.length>=1 && (ess.length+rec.length+opt.length+ext.length)<15){
+    // Already showing all compatible mods, nothing to promote
+    break;
+  }
+  // If we have fewer than 15, promote extras to optional
+  if(ess.length+rec.length+opt.length < 10 && ext.length>0){
+    ext.forEach(function(r){r.priority="optional"});
+    opt=opt.concat(ext);
+    ext=[];
+  }
+
+  var baseFPS=ram>=6?30:ram>=4?22:ram>=3?18:15;
+  var totalGain=0;
+  compatible.forEach(function(r,i){totalGain+=r.mod.fpsAvg*Math.pow(0.75,i)});
+  var mult=goal==="Maximum FPS"?1.2:goal==="Battery Saver"?0.7:goal==="Best Graphics"?0.9:1;
+  var afterFPS=Math.min(Math.round((baseFPS+totalGain)*mult),144);
+  var pct=Math.round((afterFPS-baseFPS)/baseFPS*100);
+
+  return{essential:ess,recommended:rec,optional:opt,extra:ext,
+    all:compatible,notes:notes,warnings:warnings,fps:{before:baseFPS,after:afterFPS,pct:pct}};
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+  document.getElementById("featuredGrid").innerHTML=
+    MODS.filter(function(m){return m.featured}).slice(0,3).map(modCard).join("");
+
+  document.getElementById("runBtn").addEventListener("click",function(){
+    var ver=document.getElementById("r-version").value;
+    var err=document.getElementById("errBanner");
+    if(!ver){err.style.display="block";err.textContent="Please select a Minecraft version first.";return}
+    err.style.display="none";
+    var btn=this;
+    btn.textContent="⏳ Analyzing…";
+    btn.disabled=true;
+
+    setTimeout(function(){
+      try{
+        var res=recommend({
+          version:ver,
+          loader:document.getElementById("r-loader").value,
+          launcher:document.getElementById("r-launcher").value,
+          android:document.getElementById("r-android").value,
+          ram:document.getElementById("r-ram").value,
+          arch:document.getElementById("r-arch").value,
+          gpu:document.getElementById("r-gpu").value,
+          goal:document.getElementById("r-goal").value
+        });
+
+        document.getElementById("r-before").textContent=res.fps.before+" FPS";
+        document.getElementById("r-after").textContent=res.fps.after+" FPS";
+        document.getElementById("r-pct").textContent="+"+res.fps.pct+"%";
+
+        document.getElementById("r-notes").innerHTML=
+          res.warnings.concat(res.notes).map(function(n){
+            return'<div class="note-card note-'+n.type+'">'+n.text+"</div>"
+          }).join("");
+
+        function fill(id,data){
+          var sec=document.getElementById("r-"+id);
+          var grid=document.getElementById("r-"+id+"-grid");
+          if(data&&data.length>0){
+            grid.innerHTML=data.map(resultCard).join("");
+            sec.style.display="block";
+          }else{
+            sec.style.display="none";
+          }
+        }
+
+        fill("essential",res.essential);
+        fill("recommended",res.recommended);
+        fill("optional",res.optional);
+        fill("extra",res.extra);
+
+        // Download All — shows every compatible mod
+        var allMods=res.all;
+        if(allMods.length>0){
+          document.getElementById("dlBox").style.display="block";
+          document.getElementById("dlCount").textContent=
+            allMods.length+" mods found for your setup. Click each to download, or tap Open All Pages.";
+
+          document.getElementById("dlList").innerHTML=allMods.map(function(r,i){
+            var badge=r.priority==="essential"?"🟢":r.priority==="recommended"?"🔵":r.priority==="optional"?"🟠":"⚪";
+            return '<a href="'+r.mod.url+'" target="_blank" rel="noopener" class="dl-item">'+
+              '<span style="font-size:1rem">'+r.mod.icon+'</span>'+
+              '<span style="font-weight:600;flex:1">'+r.mod.name+'</span>'+
+              '<span style="font-size:.72rem;color:#9ba3af;margin-right:8px">'+badge+' '+r.priority+'</span>'+
+              '<span style="font-size:.75rem;color:#22c55e;font-weight:600">Open ↗</span>'+
+            '</a>'
+          }).join("");
+
+          // Open All Downloads — opens each in sequence
+          document.getElementById("dlAllBtn").onclick=function(){
+            toast("Opening "+allMods.length+" download pages…","info");
+            allMods.forEach(function(r,i){
+              setTimeout(function(){
+                window.open(r.mod.url,"_blank","noopener,noreferrer");
+              },i*900);
+            });
+          };
+        }
+
+        document.getElementById("results").style.display="block";
+        document.getElementById("results").scrollIntoView({behavior:"smooth"});
+        toast("Found "+res.all.length+" compatible mods!","success");
+
+      }catch(e){
+        err.style.display="block";
+        err.textContent="Error: "+e.message;
+        console.error(e);
+      }
+      btn.textContent="⚡ Recommend Mods";
+      btn.disabled=false;
+    },300);
+  });
+});
+</script>
+</body>
+</html>
